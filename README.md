@@ -1,4 +1,1 @@
-whiteboard
-==========
-
-Creative Programming, Groepsopdracht, Whiteboard, CP3
+Creative Programming, Groepsopdracht, Whiteboard, CPIII
