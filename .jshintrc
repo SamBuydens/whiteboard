@@ -17,6 +17,7 @@
 		"console": true,
 		"module": true,
 		"require": true,
-		"$": true
+		"$": true,
+		"bean": true
 	}
 }

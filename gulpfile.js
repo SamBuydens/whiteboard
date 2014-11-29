@@ -1,68 +1,79 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var uglify = require('gulp-uglify');
+var gulp 		= require('gulp');
+var gutil 		= require('gulp-util');
+var browserify  = require('browserify');
+var source 		= require('vinyl-source-stream');
+var jshint 		= require('gulp-jshint');
+var stylish 	= require('jshint-stylish');
+var uglify 		= require('gulp-uglify');
+var buffer 		= require('vinyl-buffer');
+var sourcemaps  = require('gulp-sourcemaps');
 var compass = require('gulp-compass');
+var path = require('path');
 var minifyCSS = require('gulp-minify-css');
-var browserify = require('browserify');
-var buffer = require('gulp-buffer');
-var source = require('vinyl-source-stream');
-var header = require('gulp-header');
-var pkg = require('./package.json');
+var rename = require('gulp-rename');
 
-gulp.task('default', ['browserify', 'compass'], function(){
-	var jsWatch = gulp.watch('js/src/**/*.js', ['browserify']);
-	jsWatch.on('change', function(e){
-		console.log('JavaScript File ' + e.path + ' was ' + e.type + ', running tasks...');
-	});
 
-	var scssWatch = gulp.watch('scss/**/*.scss', ['compass']);
-	scssWatch.on('change', function(e){
-		console.log('SCSS File ' + e.path + ' was ' + e.type + ', precompressing and minfying...');
-	});
+
+gulp.task('default', ['lint', 'browserify', 'compass'], function(){
+	var watcher = gulp.watch('./js/src/**/*.js', ['browserify']); 
+	var csswatcher = gulp.watch('./_scss/**/*.scss', ['compass']); 
 });
 
-gulp.task('browserify', ['lint'], function(){
+gulp.task('lint', function() {
+  return gulp.src('js/src/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+});
+
+gulp.task('browserify', ['lint'], function(){ 
 	var bundler = browserify({
-			entries: ['./js/src/script.js']
+		entries: ['./js/src/script.js'], debug:true 
 	});
 
-	return bundler.bundle()
-				.on('error', function(err){
-					console.log(err.message);
-					gutil.beep();
-					this.emit('end');
-				})
-				//.pipe(buffer())
-				.pipe(source('script.dist.js'))
-				.pipe(header('/* copyright <%= pkg.author %>, 2014 */ \n', { pkg: pkg }))
-				.pipe(uglify().on('error', function(e) {
-					console.log('\x07',e.message);
-					return this.end(); 
-				}))
-				.pipe(gulp.dest('./js'));
+	return bundler.bundle() 
+		.on('error', function(err) { 
+			gutil.beep();
+			console.log(err.message); 
+			this.emit('end');
+			
+		})
+		.pipe(source('script.dist.js')) 
+		.pipe(buffer())
+		.pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('./js'));
 });
 
-gulp.task('lint', function(){
-	return gulp.src('js/src/**/*.js')
-    		.pipe(jshint())
-    		.pipe(jshint.reporter(stylish));
-});
+
 
 gulp.task('compass', function() {
-  	gulp.src('screen.scss')
-  		//.pipe(buffer())
-    	.pipe(compass({
-      		css: '/css',
-      		sass: '/scss',
-      		image: '/img'
-    	}))
-    	.on('error', function(err){
-    		console.log(err.message);
-    		gutil.beep();
-    		this.emit('end');
-    	})
-    	.pipe(minifyCSS())
-    	.pipe(gulp.dest('./css'));
+  return gulp.src('_scss/**/*.scss')
+    .pipe(compass({
+      config_file: './config.rb',
+      css: 'css',
+      sass: '_scss'
+    }))
+    .pipe(gulp.dest('css'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifyCSS())
+	.pipe(gulp.dest('css'));
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

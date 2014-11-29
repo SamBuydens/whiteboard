@@ -3,7 +3,7 @@
 	var App = require('./classes/App');
 
 	function init() {
-		new App();
+		new App($('#container'));
 	}
 
 	init();
