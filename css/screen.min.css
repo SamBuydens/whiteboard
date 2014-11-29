@@ -1,1 +1,1 @@
-body{margin:0;padding:0;font-size:62.5%}#whiteboard{width:100vw;height:100vh;background-color:#CBE6F4}
+body{margin:0;padding:0;font-size:62.5%}#whiteboard{width:100vw;height:100vh;background-color:#CBE6F4;position:relative;z-index:0;overflow:hidden}#element-picker{position:absolute}#element-picker span{margin:0 5px;z-index:5px}.hidden{display:none}

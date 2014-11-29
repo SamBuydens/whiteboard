@@ -1,15 +1,15 @@
 module.exports = (function(){
 
 	//TODO: INSTELLINGEN KADER TOEVOEGEN VIA HANDLEBARS
-
+	var ElementPicker = require('./ElementPicker');
+	
 	function Whiteboard($el) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
 	}
 
 	Whiteboard.prototype.createBlanc = function(){ console.log('[Whiteboard] createsBlanc');
-		console.log(this.$el);
 		this.$el.append( "<div id='whiteboard'></div>" );
-
+		this.addElementPicker();
 		this.bindClickHandler();
 	};
 
@@ -24,7 +24,12 @@ module.exports = (function(){
    		position.xPos = xPos;
    		position.yPos = yPos;
 		
+		this.$el.find("#element-picker").toggleClass("hidden");
 		bean.fire(this, "whiteboard-clicked", position); 
+	};
+
+	Whiteboard.prototype.addElementPicker = function(){ console.log('[Whiteboard] addElementPicker');
+		this.elementPicker = new ElementPicker( this.$el );
 	};
 
 	return Whiteboard;

@@ -1,7 +1,6 @@
 module.exports = (function(){
 
 	var Whiteboard = require('./Whiteboard');
-	var ElementPicker = require('./ElementPicker');
 
 	function App($el) { console.log('[App] constructor');
 		this.$el = $el;
@@ -11,11 +10,21 @@ module.exports = (function(){
 
 		//LUISTEREN
 		bean.on(this.whiteboard, "whiteboard-clicked", this.whiteboardClickedHandler.bind(this));
+		bean.on(this.whiteboard.elementPicker, "element-picker-clicked", this.elementPickerClickedHandler.bind(this));
 
 	}
 
 	App.prototype.whiteboardClickedHandler = function(event) { console.log('[App] whiteboardClickedHandler - position: X=' + event.xPos +" Y="+event.yPos );
-		this.elementPicker = new ElementPicker( this.$el );
+		var position = {
+			top : event.yPos,
+			left : event.xPos
+		}
+
+		this.$el.find("#element-picker").css(position);
+	};
+
+	App.prototype.elementPickerClickedHandler = function(event) { console.log('[App] elementPickerClickedHandler - id = ' + event );
+		
 	};
 
 	return App;
