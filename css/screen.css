@@ -18,15 +18,28 @@ body {
 /* line 16, ../_scss/screen.scss */
 #element-picker {
   position: absolute;
+  z-index: 10;
 }
 
-/* line 20, ../_scss/screen.scss */
+/* line 21, ../_scss/screen.scss */
 #element-picker span {
   margin: 0 5px 0 5px;
-  z-index: 5px;
+  cursor: pointer;
 }
 
-/* line 25, ../_scss/screen.scss */
+/* line 26, ../_scss/screen.scss */
+.postit {
+  position: absolute;
+  z-index: 5;
+  background-color: #ffffff;
+}
+
+/* line 32, ../_scss/screen.scss */
+.postit span {
+  cursor: pointer;
+}
+
+/* line 36, ../_scss/screen.scss */
 .hidden {
   display: none;
 }

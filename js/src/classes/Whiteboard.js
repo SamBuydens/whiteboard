@@ -8,7 +8,7 @@ module.exports = (function(){
 	}
 
 	Whiteboard.prototype.createBlanc = function(){ console.log('[Whiteboard] createsBlanc');
-		this.$el.append( "<div id='whiteboard'></div>" );
+		this.$el.append( "<article id='whiteboard'></article>" );
 		this.addElementPicker();
 		this.bindClickHandler();
 	};
@@ -25,6 +25,7 @@ module.exports = (function(){
    		position.yPos = yPos;
 		
 		this.$el.find("#element-picker").toggleClass("hidden");
+
 		bean.fire(this, "whiteboard-clicked", position); 
 	};
 

@@ -18,6 +18,7 @@
 		"module": true,
 		"require": true,
 		"$": true,
-		"bean": true
+		"bean": true,
+		"Handlebars": true
 	}
 }
