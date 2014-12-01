@@ -2,7 +2,6 @@ module.exports = (function(){
 
 	function PostitEdit($el,txt,id) { console.log('[PostitEdit] constructor');
 		this.$el = $el;
-		this.originalContent;
 		var entryText = $('#postit-edit-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {};
@@ -22,7 +21,7 @@ module.exports = (function(){
 	};
 
 	PostitEdit.prototype.applyClickHandler = function(id){ console.log('[PostitEdit] applyClickHandler');
-		applyData = {};
+		var applyData = {};
 		applyData.targetId = id;
 		applyData.txt = this.$el.find("#"+id+" > .postit-edit").val();
 		bean.fire(this, "apply-clicked", applyData);
@@ -30,7 +29,7 @@ module.exports = (function(){
 	};
 
 	PostitEdit.prototype.cancelClickHandler = function(id){ console.log('[PostitEdit] cancelClickHandler');
-		applyData = {};
+		var applyData = {};
 		applyData.targetId = id;
 		applyData.txt = this.originalContent;
 		bean.fire(this, "apply-clicked", applyData); 
@@ -47,7 +46,7 @@ module.exports = (function(){
 		this.$el.find("#"+id+" > .apply-button").remove();
 		this.$el.find("#"+id+" > .cancel-button").remove();
 		this.$el.find("#"+id+" > .remove-button").remove();
-	}
+	};
 
 	return PostitEdit;
 

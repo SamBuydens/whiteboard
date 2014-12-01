@@ -3,18 +3,48 @@ module.exports = (function(){
 
 	function ElementPicker($el) { console.log('[ElementPicker] constructor');
 		this.$el = $el;
-		this.$el.find("#whiteboard").append( "<div id='element-picker'><span id='postit'>post-it</span><span id='image'>image</span><span id='video'>video</span></div>" );
-		this.$el.find("#element-picker").addClass("hidden");
+		var entryText = $('#element-picker-template').text();
+		var template = Handlebars.compile(entryText);
+		var context = {
+		  elements: [	
+		  			{element: "post-it", name: "post-it"},
+		  			{element: "static", name: "image"},
+		  			{element: "motion", name: "video"}
+  				]
+  			};
+			Handlebars.registerHelper('picker', function() {
+			  var element = Handlebars.escapeExpression(this.element),
+			      name = Handlebars.escapeExpression(this.name);
 
-		this.bindClickHandlers();
+			  return new Handlebars.SafeString(
+			    "<li id="+element+">"+name+"</li>"
+			  );
+			});
+		
+		var html = template(context);
+		this.$el.find("#whiteboard").append( $(html) );
+		this.toggleVisible();
+		this.bindHandler();
 	}
 
-	ElementPicker.prototype.bindClickHandlers = function(){ console.log('[ElementPicker] bindClickHandlers');
-		this.$el.find("span").on('click', this.clickHandler.bind(this));
+	ElementPicker.prototype.toggleVisible = function(){ console.log('[ElementPicker] toggleVisible');
+		this.$el.find('#element-picker').toggleClass("hidden");
+	};
+
+	ElementPicker.prototype.setLocation = function(xPos, yPos){ console.log('[ElementPicker] setLocation');
+		var position = {
+			top : yPos,
+			left : xPos
+		};
+		this.$el.find("#element-picker").css(position);
+	};
+
+	ElementPicker.prototype.bindHandler = function(){ console.log('[ElementPicker] bindHandler');
+		this.$el.find('#element-picker > ul > li').on('click', this.clickHandler.bind(this));
 	};
 
 	ElementPicker.prototype.clickHandler = function(event){ console.log('[ElementPicker] clickHandler');
-		bean.fire(this, "element-picker-clicked", event.target.id); 
+		bean.fire(this, "element-picker-clicked", event.target.id);
 	};
 
 	return ElementPicker;

@@ -12,20 +12,15 @@
 
 	</div>
 
-	<!-- Postit Template -->
-	<script id="postit-template" type="text/template">
-		<section class="postit">
-			<span class="edit-button">wijzig</span>
-			<p class="postit-text">{{txt}}</p>
-		</section>
-	</script>
-
-	<!-- Postit Edit Template -->
-	<script id="postit-edit-template" type="text/template">
-		<textarea class='postit-edit' rows='5' cols='20' autofocus>{{txt}}</textarea>
-		<span class="apply-button">oké</span>
-		<span class="cancel-button">annuleren</span>
-		<span class="remove-button">verwijder</span>
+	<!-- ElementPicker Template -->
+	<script id="element-picker-template" type="text/template">
+		<nav id="element-picker">
+		<ul id="picker-list">
+		{{#each elements}}
+  			{{picker}}
+  		{{/each}}
+  		</ul>
+  		</nav>
 	</script>
 
 	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>
