@@ -1,5 +1,8 @@
 module.exports = (function(){
 
+
+	var Postit = require('./elements/Postit');
+
 	function Element($el,elementType,position,id) { console.log('[Element] constructor');
 		this.$el = $el;
 
@@ -27,16 +30,16 @@ module.exports = (function(){
 	};
 
 	Element.prototype.createElement = function(){ console.log('[Element] createElement');
-	console.log(this.elementType);
 		switch(this.elementType) {
-		    case "postit":
-		    	console.log('POSTEEE');
+		    case "post-it":
+		    	this.element = new Postit();
+		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		        break;
-		    case "image":
-		    	console.log("IMAGE");
+		    case "static":
+
 		        break;
-		    case "video":
-		        console.log("video");
+		    case "motion":
+
 		        break;
 		}
 	};
