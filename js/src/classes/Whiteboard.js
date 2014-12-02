@@ -13,7 +13,7 @@ module.exports = (function(){
 	}
 
 	Whiteboard.prototype.createWhiteboard = function(){ console.log('[Whiteboard] createWhiteboard');
-		this.board = this.$el.append("<article id='whiteboard'></article>");
+		this.board = this.$el.append("<div id='whiteboard'></div>");
 		this.bindHandler();
 	};
 

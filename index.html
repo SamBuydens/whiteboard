@@ -30,6 +30,21 @@
 		</section>
 	</script>
 
+	<!-- Postit Edit Template -->
+	<script id="postit-edit-template" type="text/template">
+		<textarea name="postit-edit" class="postit-edit">{{txt}}</textarea>
+	</script>
+
+	<!-- EditMenu Template -->
+	<script id="edit-menu-template" type="text/template">
+		<p class="editButton">wijzig</p>
+		<ul class="edit-menu">
+		{{#each actions}}
+  			{{editmenu}}
+  		{{/each}}
+  		</ul>
+	</script>
+
 	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/vendor/bean.min.js"></script>
 	<script type="text/javascript" src="js/vendor/handlebars.min.js"></script>
