@@ -12,6 +12,25 @@
 
 	</div>
 
+	<!-- Settings Template -->
+	<script id="setting-template" type="text/template">
+		<section id="whiteboardSettings">
+			<input type="text" class="settings-title" value="{{prjct_title}}"></input>
+			<p class="contributor_name">{{contributor}}</p>
+			<form class="contributor-form">
+				<input type="text" class="input-contributor" name="input-contributor" placeholder="nodig iemand uit"></input>
+			<form/>
+		</section>
+	</script>
+
+
+	<!-- Settings Edit Template -->
+	<script id="settings-template" type="text/template">
+		<input type="text" class="Whiteboard-title-input" placeholder="Give a title and press enter to add" />
+		<input type="email" class="share-email-input" placeholder="Give an email and press enter to add" />
+	</script>
+
+
 	<!-- ElementPicker Template -->
 	<script id="element-picker-template" type="text/template">
 		<nav id="element-picker">
@@ -43,6 +62,25 @@
   			{{editmenu}}
   		{{/each}}
   		</ul>
+  	</script>
+
+	<!-- Picture Template -->
+	<script id="picture-template" type="text/template">
+		<section class="picture">
+			<div class="form-group image-input" data-ratio="">
+				<input type="file" class="input-picture" name="input-picture"/>
+			</div>
+			<span>bewerkt</span>
+		</section>
+	</script>
+
+	<!-- Motion Template -->
+	<script id="motion-template" type="text/template">
+		<section class="motion">
+			<div class="form-group motion-input" data-ratio="">
+				<input type="file" class="input-motion" name="input-motion"/>
+			</div>
+		</section>
 	</script>
 
 	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>

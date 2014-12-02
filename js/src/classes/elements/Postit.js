@@ -32,7 +32,7 @@ module.exports = (function(){
 
 	Postit.prototype.endEdit = function(){ console.log('[Postit] endEdit');
 		this.$el.find("#"+this.elementId+" > .postit > p").addClass("hidden").text(this.txt);
-		this.$el.find(".postit-edit").remove();
+		this.$el.find("#"+this.elementId+" > .postit-edit").remove();
 		this.$el.find("#"+this.elementId+" > .postit > p").toggleClass("hidden");
 	};
 
