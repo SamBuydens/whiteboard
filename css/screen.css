@@ -26,7 +26,6 @@ body {
 .postit {
   position: absolute;
   z-index: 5;
-  background-color: #ffffff;
 }
 
 .postit span {
@@ -39,11 +38,21 @@ body {
 
 .element-holder {
   position: absolute;
-  min-width: 50px;
-  min-height: 50px;
-  background-color: #ffEEff;
+  min-width: 100px;
+  min-height: 75px;
+  background-color: #ffffff;
+  cursor: move;
 }
 
-section {
-  cursor: move;
+#whiteboardSettings {
+  float: right;
+  margin: 20px, 50px, 10px, 10px;
+  width: 120px;
+  background-color: white;
+  text-align: center;
+}
+
+.image-input-preview {
+  background-size: contain;
+  background-repeat: no-repeat;
 }

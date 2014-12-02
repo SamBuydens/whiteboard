@@ -3,6 +3,7 @@ module.exports = (function(){
 
 	function ElementPicker($el) { console.log('[ElementPicker] constructor');
 		this.$el = $el;
+		console.log($el);
 		var entryText = $('#element-picker-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {

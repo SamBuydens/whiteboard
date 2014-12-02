@@ -2,6 +2,9 @@ module.exports = (function(){
 
     var zIndexCounter = 1;
 	var Postit = require('./elements/Postit');
+	var Picture = require('./elements/Picture');
+	var Motion = require('./elements/Motion');
+
 
 	function Element($el,elementType,position,id) { console.log('[Element] constructor');
 		this.$el = $el;
@@ -37,10 +40,15 @@ module.exports = (function(){
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 		    case "static":
-
+		    	this.element = new Picture(this.$el.find("#"+this.elementId));
+		    	this.$el.find("#"+this.elementId).append(this.element.createPicture);
+		    	this.bindHandler(this.$el.find("#"+this.elementId));
+		    	this.element.initImageInputs();
 		        break;
 		    case "motion":
-
+		    	this.element = new Motion();
+		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
+		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 		}
 
@@ -77,7 +85,7 @@ module.exports = (function(){
             document.body.querySelector('#'+this.elementId).style.left = (mouseX - this.offsetX) + "px";
             document.body.querySelector('#'+this.elementId).style.top = (mouseY - this.offsetY) + "px";
         }
-    }
+    };
 
     Element.prototype.mouseUpHandler = function(e){ console.log('[Element] mouseupHandler');
 
@@ -85,7 +93,7 @@ module.exports = (function(){
         
         document.body.querySelector('#'+this.elementId).removeEventListener('mousemove', this._mouseMoveHandler);
         document.body.querySelector('#'+this.elementId).removeEventListener('mouseup', this._mouseUpHandler);
-    }
+    };
 
 	return Element;
 

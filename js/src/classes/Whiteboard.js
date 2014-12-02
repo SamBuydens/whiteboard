@@ -1,5 +1,7 @@
 module.exports = (function(){
 
+	var WhiteboardSettings = require ('./WhiteboardSettings');
+
 	function Whiteboard($el, boardName) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
 		/*
@@ -10,6 +12,8 @@ module.exports = (function(){
 		}
 		*/
 		this.createWhiteboard();
+		this.addWhiteboardSettings();
+
 	}
 
 	Whiteboard.prototype.createWhiteboard = function(){ console.log('[Whiteboard] createWhiteboard');
@@ -30,6 +34,12 @@ module.exports = (function(){
 		if(event.target.id === "whiteboard"){ //anders klikt hij "door" elementen
 			bean.fire(this, "whiteboard-clicked", position);
 		}
+	};
+
+	Whiteboard.prototype.addWhiteboardSettings = function(){ console.log('[Whiteboard] addWhiteboardSettings');
+		this.whiteboardSettings = new WhiteboardSettings(this.$el);
+		this.whiteboardSettings.createSettingPanel();
+		this.whiteboardSettings.addContributor();
 	};
 
 	return Whiteboard;
