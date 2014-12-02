@@ -52,8 +52,6 @@
 	<!-- Picture Template -->
 	<script id="picture-template" type="text/template">
 		<section class="picture">
-			<img class="picture-content" src="{{imgSrc}}"/>
-
 			<div class="form-group image-input" data-ratio="">
 				<input type="file" class="input-picture" name="input-picture"/>
 			</div>
@@ -64,7 +62,9 @@
 	<!-- Motion Template -->
 	<script id="motion-template" type="text/template">
 		<section class="motion">
-			<canvas class="motion-content" src="{{vidSrc}}"/>
+			<div class="form-group motion-input" data-ratio="">
+				<input type="file" class="input-motion" name="input-motion"/>
+			</div>
 		</section>
 	</script>
 

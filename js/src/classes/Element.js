@@ -46,9 +46,11 @@ module.exports = (function(){
 		    	this.element.initImageInputs();
 		        break;
 		    case "motion":
-		    	this.element = new Motion();
+		    	this.element = new Motion(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
+		    	this.element.initMotionInputs();
+
 		        break;
 		}
 

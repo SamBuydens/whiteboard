@@ -119,12 +119,13 @@ module.exports = (function(){
 				}
 				
 				img.setAttribute('src', e.target.result);
-				img.setAttribute('width', newHeight);
+				img.setAttribute('width', newWidth);
 				img.setAttribute('height', newHeight);
-
 			}
 
+
 			reader.readAsDataURL(this.files[0]);
+
 		}else{
 			errors.push("File is not a valid image");
 		}
