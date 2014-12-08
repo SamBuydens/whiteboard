@@ -13,21 +13,29 @@
 	</div>
 
 	<!-- Settings Template -->
-	<script id="setting-template" type="text/template">
-		<section id="whiteboardSettings">
-			<input type="text" class="settings-title" value="{{prjct_title}}"></input>
-			<p class="contributor_name">{{contributor}}</p>
-			<form class="contributor-form">
-				<input type="text" class="input-contributor" name="input-contributor" placeholder="nodig iemand uit"></input>
-			<form/>
+	<script id="settings-template" type="text/template">
+		<section class="settings">
+			<div class="hide_section">
+				<p class="settings-title">Naam: </p>
+				<input type="text" class="title-input" value="{{projectTitle}}"/>
+
+				<p class="settings-contributor">Participants: </p>
+				<input type="email" class="participant-input" placeholder="Give an email and press enter to add" />
+				<ul id="participant-list">
+				{{#each Participants}}
+		  			{{participant}}
+		  		{{/each}}
+		  		</ul>
+				<span class="add-button">add</span>
+				<span class="hide-button">hide</span>
+			</div>
+			<span class="show-button hidden">show settings!</span>
 		</section>
+
 	</script>
 
-
 	<!-- Settings Edit Template -->
-	<script id="settings-template" type="text/template">
-		<input type="text" class="Whiteboard-title-input" placeholder="Give a title and press enter to add" />
-		<input type="email" class="share-email-input" placeholder="Give an email and press enter to add" />
+	<script id="settings-edit-template" type="text/template">
 	</script>
 
 

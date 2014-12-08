@@ -1,10 +1,11 @@
 module.exports = (function(){
 
-	//var WhiteboardSettings = require ('./WhiteboardSettings');
+	var WhiteboardSettings = require ('./WhiteboardSettings');
 
 	function Whiteboard($el, boardName) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
 		this.createWhiteboard();
+		this.addWhiteboardSettings();
 
 	}
 
@@ -28,11 +29,10 @@ module.exports = (function(){
 		}
 	};
 
-	/*Whiteboard.prototype.addWhiteboardSettings = function(){ console.log('[Whiteboard] addWhiteboardSettings');
+	Whiteboard.prototype.addWhiteboardSettings = function(){ console.log('[Whiteboard] addWhiteboardSettings');
 		this.whiteboardSettings = new WhiteboardSettings(this.$el);
 		this.whiteboardSettings.createSettingPanel();
-		this.whiteboardSettings.addContributor();
-	};*/
+	};
 
 	return Whiteboard;
 

@@ -4,6 +4,10 @@ body{
     font-size: 62.5%;
 }
 
+#container{
+	font-size: 1.3em;
+
+}
 #whiteboard {
     width: 100vw;
     height: 100vh;
@@ -54,13 +58,19 @@ body{
 
 }
 
-#whiteboardSettings{
+.settings{
 	float: right;
-	margin: 20px, 50px, 10px, 10px;
  	width: 120px;
     background-color: white; 
     text-align: center;
+    padding: 10px;
+    text-align: left;
+    z-index: 999;
+    position: relative;
 }
+
+
+
 
 .image-input-preview{
 	background-size: contain;
