@@ -1,18 +1,53 @@
 module.exports = (function(){
 
-	function MotionEdit($el,vidSrc,id) { console.log('[MotionEdit] constructor');
-		this.$el = $el;
+	function MotionEdit(vidSrc, elementId) { console.log('[MotionEdit] constructor');
 		var entryText = $('#motion-edit-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {};
 		context.vidSrc = vidSrc;
 
 		var html = template(context);
-		$('#'+id).append( $(html) );
+		setTimeout(function(){initMotionInput(elementId);
+ 		}, 100);
 
-		this.bindClickHandlers(id);
+		return ($(html));
+
 	}
+
+	function initMotionInput(elementId){ console.log('[Motion] initMotionInput');
+		var fileInput = document.querySelector('#'+elementId+'> input[type=file]');
+		console.log(fileInput);
+	    fileInput.addEventListener('change', playSelectedFile);
+
+	}
+
+
+ 	function playSelectedFile(event) { console.log('[Motion] playSelectedFile');
+			var elementId = event.target.parentNode.id;
+			var vid = document.querySelector('#'+elementId+'> .motion > video');
+			console.log(vid);
+            var file = this.files[0];
+            var type = file.type;
+            var canPlay = vid.canPlayType(type);
+            canPlay = (canPlay === '' ? 'no' : canPlay);
+            var message = 'Can play type "' + type + '": ' + canPlay;
+            var isError = canPlay === 'no';
+
+            if (isError) {
+                return;
+            }
+            if(URL){
+            var fileURL = URL.createObjectURL(file);
+            vid.src = fileURL;
+            vid.autoPlay = true;
+
+            console.log(vid);
+        	}
+    
+	};
 	
 	return MotionEdit;
 
 })();
+
+

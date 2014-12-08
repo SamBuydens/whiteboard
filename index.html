@@ -77,11 +77,15 @@
 	<!-- Motion Template -->
 	<script id="motion-template" type="text/template">
 		<section class="motion">
-			<div class="form-group motion-input" data-ratio="">
-				<input type="file" class="input-motion" name="input-motion"/>
-			</div>
+				<video controls autoplay src={{vidSrc}}></video>			
 		</section>
 	</script>
+
+	<!-- Motion Edit Template -->
+	<script id="motion-edit-template" type="text/template">
+				<input type="file" class="motion-edit" name="motion-edit"/>
+	</script>
+
 
 	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/vendor/bean.min.js"></script>

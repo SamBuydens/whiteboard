@@ -38,7 +38,6 @@ module.exports = (function(){
 		switch(this.elementType) {
 		    case "post-it":
 		    	this.element = new Postit();
-		    	this.$el.find("#"+this.elementId).append(this.element.createPostit());
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
@@ -50,10 +49,9 @@ module.exports = (function(){
 		        break;
 		    case "motion":
 		    	this.element = new Motion(this.$el.find("#"+this.elementId));
-		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
+		    	this.$el.find("#"+this.elementId).append(this.element.createMotion(this.$el.find("#"+this.elementId)));
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
-		    	this.element.initMotionInputs();
-
+		    	//this.element.initMotionInput(this.$el.find("#"+this.elementId));
 		        break;
 		}
 	};
