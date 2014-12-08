@@ -41,7 +41,7 @@ module.exports = (function(){
 
 	App.prototype.addToElementList = function(event){ console.log('[App] addToElementList');
 		this.elementList.push(this.dataHandler.getBoardElements());
-		this.i++
+		this.i++;
 		if(this.i == this.types.length){
 			this.addToBoard();
 		}
