@@ -4,15 +4,7 @@ module.exports = (function(){
 
 	function Whiteboard($el, boardName) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
-		/*
-		if(boardName){
-			this.boardName = boardName;
-		}else{
-			this.boardName = "Nieuw board";
-		}
-		*/
 		this.createWhiteboard();
-		//this.addWhiteboardSettings();
 
 	}
 

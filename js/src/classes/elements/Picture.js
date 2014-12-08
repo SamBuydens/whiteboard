@@ -34,7 +34,6 @@ module.exports = (function(){
 
 	};
 
-	
 	Picture.prototype.initImageInputs= function(){ console.log('[Picture] initImageinputs');
 			var imgInputs = this.$el.find('.image-input')[0];
 			initImageImput(imgInputs);
@@ -48,7 +47,6 @@ module.exports = (function(){
 		
 		var previewContainer = document.createElement('div');
 		previewContainer.classList.add('image-input-preview');
-
 		
 		el.insertBefore(previewContainer, fileInput);
 	}
@@ -81,8 +79,6 @@ module.exports = (function(){
 						previewContainer.style.backgroundImage = "url('"+ e.target.result +"')";
 						previewContainer.style.height = newHeight+"px";
 						previewContainer.style.width = newWidth+"px";
-
-
 						
 					}else{
 						alert(errors.join("\n"));

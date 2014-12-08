@@ -7,14 +7,16 @@ module.exports = (function(){
 	var Motion = require('./elements/Motion');
 
 
-	function Element($el,elementType,position,id) { console.log('[Element] constructor');
+	function Element($el,elementType,position,id,content) { console.log('[Element] constructor');
+
 		this.$el = $el;
+		this.content = content;
 		this.elementType = elementType;
 		this.elementId = id;
 		if(this.elementId){
 			this.elementId = id;
 		}else {
-			this.elementId = elementType+"_"+this.$el.find(".element-holder").length;
+			this.elementId = this.$el.find(".element-holder").length;
 		}
 
 		this.position = position;
@@ -24,11 +26,11 @@ module.exports = (function(){
 	Element.prototype.createElementHolder = function(){ console.log('[Element] createElementHolder');
 		this.$el.find("#whiteboard").append("<section class='element-holder'></section>");
 		this.$el.find(".element-holder:last-of-type").attr('id', this.elementId);
-		var position = {
-			top : this.position.yPos,
-			left : this.position.xPos,
-			zIndex: 0
-		};
+		var position = {};
+		position.top = this.position.yPos;
+		position.left = this.position.xPos;
+		position.zIndex = 0
+		console.log(position);
 		this.$el.find("#"+this.elementId).css(position);
 		this.createEditMenu();
 		this.createElement();
@@ -37,7 +39,7 @@ module.exports = (function(){
 	Element.prototype.createElement = function(){ console.log('[Element] createElement');
 		switch(this.elementType) {
 		    case "post-it":
-		    	this.element = new Postit();
+		    	this.element = new Postit(this.content);
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit());
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
@@ -53,17 +55,16 @@ module.exports = (function(){
 		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		    	this.element.initMotionInputs();
-
 		        break;
 		}
 	};
 
-	Element.prototype.bindHandler = function(){ console.log('[Element] bindHandler');
+	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
 		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
 		this.mouseDown = false;
 	};
 
-	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler')
+	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
 		if(e.target.id !== "whiteboard"){
             this.$el.find("#element-picker").removeClass("hidden");
 		}
@@ -77,7 +78,7 @@ module.exports = (function(){
         this.offsetY = e.offsetY;
                 
         ++zIndexCounter;
-        document.body.querySelector('#'+this.elementId).style.zIndex = zIndexCounter;
+        this.$el.find("#"+this.elementId).css('zIndex', zIndexCounter);
         
         document.body.addEventListener('mousemove', this._mouseMoveHandler);
         document.body.addEventListener('mouseup', this._mouseUpHandler);
@@ -97,7 +98,7 @@ module.exports = (function(){
 		switch(event.targetId) {
 		    case "remove":
 		    	this.editMenu.toggleVisible();
-		    	this.$el.find('#'+event.elementId).remove();
+		    	this.$el.find(event.elementId).remove();
 		        break;
 		    case "edit": console.log("EDITE");
 		    	this.element.confirm();
@@ -114,9 +115,8 @@ module.exports = (function(){
 
             var mouseX = parseInt(e.clientX);
             var mouseY = parseInt(e.clientY);
-            
-            document.body.querySelector('#'+this.elementId).style.left = (mouseX - this.offsetX) + "px";
-            document.body.querySelector('#'+this.elementId).style.top = (mouseY - this.offsetY) + "px";
+            this.$el.find("#"+this.elementId).css('left', mouseX - this.offsetX);
+            this.$el.find("#"+this.elementId).css('top', mouseY - this.offsetY);
         }
     };
 
