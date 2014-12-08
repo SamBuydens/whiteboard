@@ -7,14 +7,17 @@ module.exports = (function(){
 	var Motion = require('./elements/Motion');
 
 
-	function Element($el,elementType,position,id,content) { console.log('[Element] constructor');
+	function Element($el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
 
 		this.$el = $el;
 		this.content = content;
 		this.elementType = elementType;
 		this.elementId = id;
+		if(id){
+			this.id = id;
+		}
 		if(this.elementId){
-			this.elementId = id;
+			this.elementId = elementId;
 		}else {
 			this.elementId = this.$el.find(".element-holder").length;
 		}
@@ -29,8 +32,7 @@ module.exports = (function(){
 		var position = {};
 		position.top = this.position.yPos;
 		position.left = this.position.xPos;
-		position.zIndex = 0
-		console.log(position);
+		position.zIndex = 0;
 		this.$el.find("#"+this.elementId).css(position);
 		this.createEditMenu();
 		this.createElement();
@@ -95,10 +97,15 @@ module.exports = (function(){
 	};
 
 	Element.prototype.actionClickedHandler = function(event){ console.log('[Element] actionClickedHandler');
+	console.log("event === "+event.elementId+"-----"+event.targetId);
 		switch(event.targetId) {
 		    case "remove":
 		    	this.editMenu.toggleVisible();
-		    	this.$el.find(event.elementId).remove();
+		    	this.$el.find('#'+event.elementId).remove();
+		    	var actionEvent = {};
+		    	actionEvent.id = this.id;
+		    	actionEvent.elementType = this.elementType;
+		    	bean.fire(this, "remove-clicked", actionEvent);
 		        break;
 		    case "edit": console.log("EDITE");
 		    	this.element.confirm();

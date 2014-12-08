@@ -22,4 +22,10 @@ $app -> get("/postits/:id/?", function($whiteboard_id) use ($postitsDAO){
 	exit();
 });
 
+$app->get("/postits/delete/:id/?", function($id) use ($postitsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($postitsDAO->deletePotitById($id));
+	exit();
+});
+
 $app->run();

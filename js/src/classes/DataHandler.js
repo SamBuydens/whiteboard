@@ -7,7 +7,6 @@ module.exports = (function(){
 	}
 
 	DataHandler.prototype.loadBoardElements = function(type){ console.log('[DataHandler] loadBoardElements');
-
 		return $.ajax({
 	  				type: "GET",
 	  				url: this.url+type+'/1',
@@ -17,11 +16,34 @@ module.exports = (function(){
 	  					bean.fire(that, "data-success");
 	  				}
 				});
-
 	};
 
 	DataHandler.prototype.getBoardElements = function(){ console.log('[DataHandler] getBoardElements');
 		return this.boardElements;
+	};
+
+	DataHandler.prototype.removeBoardElement = function(elementType,id){ console.log('[DataHandler] removeBoardElement');
+		switch(elementType) {
+		    case "post-it":
+		    	this.removeElementById('postits',id);
+		        break;
+		    case "static":
+		        break;
+		    case "motion":
+		        break;
+		}
+	};
+
+	DataHandler.prototype.removeElementById = function(elementType,id){
+		console.log(this.url+elementType+'/delete/'+id);
+		$.ajax({
+	  		type: "GET",
+	  		url: this.url+elementType+'/delete/'+id,
+	  		data: {content: 'content'},
+	  		success: function(data){
+	  			console.log("deleted = "+data);
+	  		}
+		});
 	};
 
 	return DataHandler;

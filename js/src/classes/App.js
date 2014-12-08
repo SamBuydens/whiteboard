@@ -49,16 +49,23 @@ module.exports = (function(){
 
 	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 		var list = this.elementList[0][0];
+		console.log(list);
 		for(var element in list) {
 			console.log(list[element].el_type);
   			var type = list[element].el_type;
   			var position = {};
   			position.yPos = Number(list[element].posy);
   			position.xPos = Number(list[element].posx);
-  			var id = list[element].id_on_board;
+  			var elementId = list[element].id_on_board;
+  			var id = list[element].id;
   			var content = list[element].content;
-  			var element = new Element(this.$el,type,position,id,content);
+  			var element = new Element(this.$el,type,position,elementId,content,id);
+  			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
 		}
+	};
+
+	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 
+		this.dataHandler.removeBoardElement(event.elementType, event.id);
 	};
 
 	return App;

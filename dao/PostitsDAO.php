@@ -28,4 +28,16 @@ class PostitsDAO
         return array();
     }
 
+    public function deletePotitById($id){
+        $sql = "DELETE
+                FROM wb_postit
+                WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id",$id);
+        if($stmt->execute()){
+            return $id;
+        }
+        return false;
+    }
+
 }
