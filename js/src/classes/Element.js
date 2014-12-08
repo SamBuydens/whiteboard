@@ -49,7 +49,7 @@ module.exports = (function(){
 		        break;
 		    case "motion":
 		    	this.element = new Motion(this.$el.find("#"+this.elementId));
-		    	this.$el.find("#"+this.elementId).append(this.element.createMotion(this.$el.find("#"+this.elementId)));
+		    	this.$el.find("#"+this.elementId).append(this.element.createMotion;
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		    	//this.element.initMotionInput(this.$el.find("#"+this.elementId));
 		        break;
