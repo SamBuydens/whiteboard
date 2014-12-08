@@ -54,7 +54,6 @@ module.exports = (function(){
 	}
 	
 	function createThumb(e){
-		console.log("Input changed");
 
 		if (
 			this.files && 
@@ -67,32 +66,22 @@ module.exports = (function(){
 			reader.onload = function(e){
 				var img = document.createElement('img');
 
+				img.setAttribute('src', e.target.result);
+				img.setAttribute('width', img.width);
+				img.setAttribute('height', img.height);
 				img.onload = function(){
-
-					if(img.width > 300 ){
-						newWidth = img.width/img.width*300;
-						newHeight = img.height/img.width*300;
-					}else{
-						newWidth = img.width;
-						newHeight = img.height;
-					}
 
 					if(errors.length === 0){
 						previewContainer.style.backgroundImage = "url('"+ e.target.result +"')";
-						previewContainer.style.height = newHeight+"px";
-						previewContainer.style.width = newWidth+"px";
+						previewContainer.style.height = img.width+"px";
+						previewContainer.style.width = img.height+"px";
 
-
-						
 					}else{
 						alert(errors.join("\n"));
 						errors = [];
 					}
 				}
-				
-				img.setAttribute('src', e.target.result);
-				img.setAttribute('width', img.width);
-				img.setAttribute('height', img.height);
+		
 			}
 
 			reader.readAsDataURL(this.files[0]);
