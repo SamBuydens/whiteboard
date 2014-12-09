@@ -31,7 +31,6 @@ module.exports = (function(){
 
 	Whiteboard.prototype.addWhiteboardSettings = function(){ console.log('[Whiteboard] addWhiteboardSettings');
 		this.whiteboardSettings = new WhiteboardSettings(this.$el);
-		this.whiteboardSettings.createSettingPanel();
 	};
 
 	return Whiteboard;

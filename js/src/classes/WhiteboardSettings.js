@@ -1,42 +1,14 @@
 module.exports = (function(){
+	var Participant = require ('./Participant');
 
 
 	function WhiteboardSettings($el, $participants, $title) { console.log('[WhiteboardSettings] constructor');
 		this.$el = $el;
 		this.$participants = $participants;
 		this.$title = $title;
-	
-	}
-
-	WhiteboardSettings.prototype.createSettingPanel = function(){ console.log('[WhiteboardSettings] createSettingPanel');
-		var entryText = $('#settings-template').text();
-		var template = Handlebars.compile(entryText);
-		var context = {};			
-
-
-		if(this.$title){
-			context.projectTitle = this.projectTitle;
-		}else{
-			context.projectTitle = "Untitled";
-		}
-
-		context.participants = this.participants;
-		var html = template(context)
-		$('#whiteboard').append( $(html) );
-
 		this.bindHandler();
-		
-	};
 
-
-	WhiteboardSettings.prototype.addClickedHandler = function(event){ console.log('[WhiteboardSettings] addClickedHandler');
-		
-	};
-
-	WhiteboardSettings.prototype.minimizeHandler = function(event){ console.log('[WhiteboardSettings] minimizeHandler');
-		
-	};
-
+	}
 
 	WhiteboardSettings.prototype.toggleVisible = function(){ console.log('[WhiteboardSettings] toggleVisible');
 		this.$el.find('#hide').toggleClass('hidden');
@@ -44,19 +16,25 @@ module.exports = (function(){
 	};
 
 	WhiteboardSettings.prototype.bindHandler = function(){ console.log('[WhiteboardSettings] bindHandler');
-		this.$el.find('.hide-button').on('click', this.clickHandler.bind(this));
-		this.$el.find('.show-button').on('click', this.clickHandler.bind(this));
-
-		console.log(this.$el);
+		this.$el.find('.hide-button').on('click', this.hideSettingsHandler.bind(this));
+		this.$el.find('.show-button').on('click', this.hideSettingsHandler.bind(this));
+		this.$el.find('.add-button').on('click', this.createParticipant.bind(this));
+	};
+	WhiteboardSettings.prototype.createParticipant = function(event){ console.log('[WhiteboardSettings] addClickedHandler');
+		this.participant = new Participant(this.$el);
+		bean.on(this.participant, "delete", this.deleteParticipant.bind(this));
 	};
 
-	WhiteboardSettings.prototype.clickHandler = function(event){ console.log('[WhiteboardSettings] clickHandler');
+	WhiteboardSettings.prototype.hideSettingsHandler = function(event){ console.log('[WhiteboardSettings] hideSettingsHandler');
 		this.$el.find('.hide_section').toggleClass('hidden');
 		this.$el.find('.show-button').toggleClass('hidden');
-
 	};
-
-
+	
+	WhiteboardSettings.prototype.deleteParticipant = function(participant) { console.log('[WhiteboardSettings] deleteParticipant');
+		var el = document.querySelector('#participant-list');
+		el.removeChild(participant);
+		return;
+	};
 
 	return WhiteboardSettings;
 

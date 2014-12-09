@@ -8,36 +8,30 @@
 </head>
 <body>
 
+
 	<div id="container">
-
-	</div>
-
-	<!-- Settings Template -->
-	<script id="settings-template" type="text/template">
+		<!-- Settings Template -->
 		<section class="settings">
 			<div class="hide_section">
-				<p class="settings-title">Naam: </p>
-				<input type="text" class="title-input" value="{{projectTitle}}"/>
+				<p class="settings-title">Thema: </p>
+				<input type="text" class="title-input" value="Untitled"/>
 
 				<p class="settings-contributor">Participants: </p>
-				<input type="email" class="participant-input" placeholder="Give an email and press enter to add" />
-				<ul id="participant-list">
-				{{#each Participants}}
-		  			{{participant}}
-		  		{{/each}}
-		  		</ul>
+				<input type="email" class="participant-input" name='participant-input' placeholder="Give an email and press enter to add" />
+					<ul id="participant-list">
+						<script id="settings-template" type="text/template">
+				  			{{#each elements}}
+			  				{{picker}}
+			  				{{/each}}
+			  			</script>
+			  		</ul>
 				<span class="add-button">add</span>
 				<span class="hide-button">hide</span>
 			</div>
 			<span class="show-button hidden">show settings!</span>
 		</section>
 
-	</script>
-
-	<!-- Settings Edit Template -->
-	<script id="settings-edit-template" type="text/template">
-	</script>
-
+	</div>
 
 	<!-- ElementPicker Template -->
 	<script id="element-picker-template" type="text/template">

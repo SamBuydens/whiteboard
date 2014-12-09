@@ -58,17 +58,28 @@ body {
 }
 
 .settings {
-  float: right;
   width: 120px;
-  background-color: white;
-  text-align: center;
+  background-color: #fff;
   padding: 10px;
   text-align: left;
   z-index: 999;
-  position: relative;
+  position: absolute;
 }
 
 .image-input-preview {
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.btn-delete {
+  top: 0;
+  margin-left: 10px;
+  bottom: 0;
+  background: #eb9093;
+  color: white;
+}
+
+.btn {
+  border: 0;
+  cursor: pointer;
 }
