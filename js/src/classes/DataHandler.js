@@ -13,7 +13,7 @@ module.exports = (function(){
 	  				data: {content: 'content'},
 	  				success: function(data){
 	  					that.boardElements.push(data);
-	  					bean.fire(that, "data-success");
+	  					bean.fire(that, "data-success", [data]);
 	  				}
 				});
 	};
@@ -28,20 +28,31 @@ module.exports = (function(){
 		    	this.removeElementById('postits',id);
 		        break;
 		    case "static":
+		    	this.removeElementById('static',id);
 		        break;
 		    case "motion":
+		    	this.removeElementById('motion',id);
 		        break;
 		}
 	};
 
 	DataHandler.prototype.removeElementById = function(elementType,id){
-		console.log(this.url+elementType+'/delete/'+id);
 		$.ajax({
 	  		type: "GET",
 	  		url: this.url+elementType+'/delete/'+id,
 	  		data: {content: 'content'},
 	  		success: function(data){
 	  			console.log("deleted = "+data);
+	  		}
+		});
+	};
+
+	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){
+		$.ajax({
+	  		type: "POST",
+	  		url: this.url+"postits"+'/add/'+whiteboardId+"/"+id_on_board+"/"+position.xPos+"/"+position.yPos,
+	  		success: function(){
+	  			console.log("new element posted");
 	  		}
 		});
 	};

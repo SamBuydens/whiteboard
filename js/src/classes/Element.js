@@ -6,23 +6,20 @@ module.exports = (function(){
 	var Picture = require('./elements/Picture');
 	var Motion = require('./elements/Motion');
 
-
 	function Element($el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
-
 		this.$el = $el;
 		this.content = content;
 		this.elementType = elementType;
-		this.elementId = id;
-		if(id){
-			this.id = id;
-		}
+		this.elementId = elementId;
 		if(this.elementId){
 			this.elementId = elementId;
 		}else {
-			this.elementId = this.$el.find(".element-holder").length;
+			this.elementId = this.setElementId();
 		}
-
 		this.position = position;
+		if(id){
+			this.id = id;
+		}
 		this.createElementHolder();
 	}
 
@@ -97,7 +94,6 @@ module.exports = (function(){
 	};
 
 	Element.prototype.actionClickedHandler = function(event){ console.log('[Element] actionClickedHandler');
-	console.log("event === "+event.elementId+"-----"+event.targetId);
 		switch(event.targetId) {
 		    case "remove":
 		    	this.editMenu.toggleVisible();
@@ -119,7 +115,6 @@ module.exports = (function(){
 	};
     Element.prototype.mouseMoveHandler = function(e){ console.log('[Element] mousemoveHandler');
         if(this.mouseDown === true){
-
             var mouseX = parseInt(e.clientX);
             var mouseY = parseInt(e.clientY);
             this.$el.find("#"+this.elementId).css('left', mouseX - this.offsetX);
@@ -134,6 +129,16 @@ module.exports = (function(){
         document.body.removeEventListener('mousemove', this._mouseMoveHandler);
         document.body.removeEventListener('mouseup', this._mouseUpHandler);
     };
+
+    Element.prototype.setElementId = function(e){ console.log('[Element] setElementId');
+    	var holders = this.$el.find(".element-holder");
+			var idHolder =[];
+			for(i = 0;i < holders.length; i++ ){
+				idHolder.push(holders[i].id);
+			}
+			idHolder.sort(function(a, b){return b-a});
+			return Number(idHolder[0])+1;
+		};
 
 	return Element;
 

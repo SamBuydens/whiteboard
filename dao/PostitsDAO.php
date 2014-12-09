@@ -40,4 +40,18 @@ class PostitsDAO
         return false;
     }
 
+    public function addPostit($whiteboard_id ,$id_on_board, $posx, $posy){
+        $sql = "INSERT INTO wb_postit(whiteboard_id,id_on_board, posx, posy)
+                VALUES (:whiteboard_id,:id_on_board, :posx, :posy)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":whiteboard_id",$whiteboard_id);
+        $stmt->bindValue(":id_on_board",$id_on_board);
+        $stmt->bindValue(":posx",$posx);
+        $stmt->bindValue(":posy",$posy);
+        if($stmt -> execute()){
+            //return $this -> getTodoById($this->pdo->lastInsertId());
+        }
+        return array();
+    }
+
 }

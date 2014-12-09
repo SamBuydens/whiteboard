@@ -28,4 +28,10 @@ $app->get("/postits/delete/:id/?", function($id) use ($postitsDAO){
 	exit();
 });
 
+$app->post("/postits/add/:whiteboard_id/:id_on_board/:xpos/:ypos/?",function($whiteboard_id,$id_on_board,$xpos,$ypos) use ($app,$postitsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($postitsDAO->addPostit($whiteboard_id,$id_on_board,$xpos,$ypos));
+	exit();
+});
+
 $app->run();
