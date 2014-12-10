@@ -1,0 +1,37 @@
+<?php
+
+define("WWW_ROOT",dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+
+require_once WWW_ROOT. "dao" .DIRECTORY_SEPARATOR. 'BoardsDAO.php';
+require_once WWW_ROOT. "dao" .DIRECTORY_SEPARATOR. 'PostitsDAO.php';
+require_once WWW_ROOT. "api" .DIRECTORY_SEPARATOR. 'Slim'. DIRECTORY_SEPARATOR .'Slim.php';
+
+\Slim\Slim::registerAutoloader();
+
+$app = new \Slim\Slim();
+
+$boardsDAO = new BoardsDAO();
+$postitsDAO = new PostitsDAO();
+
+$app -> config('debug', true);
+
+//POSTITS
+$app -> get("/postits/:id/?", function($whiteboard_id) use ($postitsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($postitsDAO->getPostitsByBoardId($whiteboard_id));
+	exit();
+});
+
+$app->get("/postits/delete/:id/?", function($id) use ($postitsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($postitsDAO->deletePotitById($id));
+	exit();
+});
+
+$app->post("/postits/add/:whiteboard_id/:id_on_board/:xpos/:ypos/?",function($whiteboard_id,$id_on_board,$xpos,$ypos) use ($app,$postitsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($postitsDAO->addPostit($whiteboard_id,$id_on_board,$xpos,$ypos));
+	exit();
+});
+
+$app->run();

@@ -62,7 +62,6 @@ module.exports = (function(){
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
-
         this.mouseDown = true;
         
         this._mouseMoveHandler = this.mouseMoveHandler.bind(this);

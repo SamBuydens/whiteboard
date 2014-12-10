@@ -7,7 +7,6 @@ module.exports = (function(){
 
 	function App($el) { console.log('[App] constructor');
 		this.$el = $el;
-		this.whiteboardId = 1;
 		this.types = ['postits'];
 		this.i = 0;
 		this.elementList = [];
@@ -32,7 +31,6 @@ module.exports = (function(){
 	App.prototype.elementPickerClickedHandler = function(event){ console.log('[App] elementPickerClickedHandler'); 
 		this.elementPicker.toggleVisible();
 		var element = new Element(this.$el,event,this.position);
-		this.newElement(event, element.elementId)
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -51,6 +49,7 @@ module.exports = (function(){
 
 	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 		var list = this.elementList[0][0];
+		console.log(list);
 		for(var element in list) {
   			var type = list[element].el_type;
   			var position = {};
@@ -66,10 +65,6 @@ module.exports = (function(){
 
 	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 
 		this.dataHandler.removeBoardElement(event.elementType, event.id);
-	};
-
-	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 
-		this.dataHandler.newBoardElement(type,idOnBoard,this.position,this.whiteboardId);
 	};
 
 	return App;
