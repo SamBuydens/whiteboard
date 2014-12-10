@@ -33,6 +33,10 @@ class PostitsDAO
         }
         return false;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5efbd2abff5823ebd3fa34cfdfba01419c203e5a
     public function addPostit($whiteboard_id ,$id_on_board, $posx, $posy){
         $sql = "INSERT INTO wb_postit(whiteboard_id,id_on_board, posx, posy)
                 VALUES (:whiteboard_id,:id_on_board, :posx, :posy)";
@@ -46,4 +50,8 @@ class PostitsDAO
         }
         return array();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5efbd2abff5823ebd3fa34cfdfba01419c203e5a
 }
