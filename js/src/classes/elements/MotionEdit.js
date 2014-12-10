@@ -9,23 +9,17 @@ module.exports = (function(){
 		var html = template(context);
 		setTimeout(function(){initMotionInput(elementId);
  		}, 100);
-
 		return ($(html));
-
 	}
 
 	function initMotionInput(elementId){ console.log('[Motion] initMotionInput');
-		var fileInput = document.querySelector('#'+elementId+'> input[type=file]');
-		console.log(fileInput);
+		var fileInput = document.querySelector('#'+elementId+' > input[type=file]');
 	    fileInput.addEventListener('change', playSelectedFile);
-
 	}
-
 
  	function playSelectedFile(event) { console.log('[Motion] playSelectedFile');
 			var elementId = event.target.parentNode.id;
-			var vid = document.querySelector('#'+elementId+'> .motion > video');
-			console.log(vid);
+			var vid = document.querySelector('#'+elementId+' > .motion > video');
             var file = this.files[0];
             var type = file.type;
             var canPlay = vid.canPlayType(type);
@@ -33,15 +27,10 @@ module.exports = (function(){
             var message = 'Can play type "' + type + '": ' + canPlay;
             var isError = canPlay === 'no';
 
-            if (isError) {
-                return;
-            }
             if(URL){
             var fileURL = URL.createObjectURL(file);
             vid.src = fileURL;
             vid.autoPlay = true;
-
-            console.log(vid);
         	}
     
 	};

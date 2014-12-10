@@ -49,9 +49,7 @@ module.exports = (function(){
 
 	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 		var list = this.elementList[0][0];
-		console.log(list);
 		for(var element in list) {
-			console.log(list[element].el_type);
   			var type = list[element].el_type;
   			var position = {};
   			position.yPos = Number(list[element].posy);

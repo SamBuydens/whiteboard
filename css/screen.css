@@ -57,6 +57,10 @@ body {
   user-select: none;
 }
 
+.element-holder p {
+  text-align: center;
+}
+
 .settings {
   width: 120px;
   background-color: #fff;

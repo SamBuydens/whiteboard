@@ -34,9 +34,6 @@ module.exports = (function(){
 
 	};
 
-
-
-
 	Motion.prototype.confirm = function(){ console.log('[Motion] confirm');
 		this.vidSrc = this.$el.find("#"+this.elementId+" .motion-edit").val();
 		this.endEdit();

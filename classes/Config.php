@@ -1,7 +1,5 @@
 <?php
-
-class Config
-{
+class Config{
     const DB_TYPE = 'mysql';
     const DB_HOST = 'localhost';
     const DB_USER = 'cp3';
