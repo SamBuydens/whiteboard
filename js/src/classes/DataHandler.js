@@ -6,10 +6,10 @@ module.exports = (function(){
 		this.boardElements = [];
 	}
 
-	DataHandler.prototype.loadBoardElements = function(type){ console.log('[DataHandler] loadBoardElements');
+	DataHandler.prototype.loadBoardElements = function(type,whiteboardId){ console.log('[DataHandler] loadBoardElements');
 		return $.ajax({
 	  				type: "GET",
-	  				url: this.url+type+'/1',
+	  				url: this.url+type+'/'+String(whiteboardId),
 	  				data: {content: 'content'},
 	  				success: function(data){
 	  					that.boardElements.push(data);
@@ -53,15 +53,15 @@ module.exports = (function(){
 		    	this.newElement('postits',id_on_board, position, whiteboardId);
 		        break;
 		    case "static":
-		    	this.newElement('static',id);
+		    	this.newElement('static',whiteboardId);
 		        break;
 		    case "motion":
-		    	this.newElement('motion',id);
+		    	this.newElement('motion',whiteboardId);
 		        break;
 		}
 	};
 
-	DataHandler.prototype.newElement = function(id_on_board,position,whiteboardId){
+	DataHandler.prototype.newElement = function(elementType,id_on_board,position,whiteboardId){
 		$.ajax({
 	  		type: "POST",
 	  		url: this.url+elementType+'/add',

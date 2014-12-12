@@ -1,22 +1,12 @@
 module.exports = (function(){
-	var errors = [];
+	var PictureEdit = require('./PictureEdit');
 
 	function Picture($el,xPos,yPos, imgSrc) { console.log('[Picture] constructor');
 		this.$el = $el;
 		console.log($el);
 		if(imgSrc){
 		this.imgSrc = imgSrc;
-		};
-
-		if (
-			window.File && 
-			window.FileReader && 
-			window.FileList && 
-			window.Blob
-		) {
-			console.log("Full file support");
-
-		};
+		}
 	}
 
 	Picture.prototype.createPicture = function(){ console.log('[Picture] creatPicture');
@@ -31,88 +21,25 @@ module.exports = (function(){
 		}
 		var html = template(context);
 		return($(html));
-
-	};
-
-	Picture.prototype.initImageInputs= function(){ console.log('[Picture] initImageinputs');
-			var imgInputs = this.$el.find('.image-input')[0];
-			initImageImput(imgInputs);
 	};
 	
-	function initImageImput(el){
-		el.classList.add('image-input-js');
-
-		var fileInput = el.querySelector('input[type=file]');
-		fileInput.addEventListener('change', createThumb);
-		
-		var previewContainer = document.createElement('div');
-		previewContainer.classList.add('image-input-preview');
-		
-		el.insertBefore(previewContainer, fileInput);
-	}
-	
-	function createThumb(e){
-		console.log("Input changed");
-
-		if (
-			this.files && 
-			this.files[0] && 
-			this.files[0].type.match('image.*')
-		) {
-			var reader = new FileReader();
-			var previewContainer = this.parentNode.querySelector('.image-input-preview');
-
-			reader.onload = function(e){
-				var img = document.createElement('img');
-
-				img.onload = function(){
-
-					if(img.width > 300 ){
-						newWidth = img.width/img.width*300;
-						newHeight = img.height/img.width*300;
-					}else{
-						newWidth = img.width;
-						newHeight = img.height;
-					}
-
-					if(errors.length === 0){
-						previewContainer.style.backgroundImage = "url('"+ e.target.result +"')";
-						previewContainer.style.height = newHeight+"px";
-						previewContainer.style.width = newWidth+"px";
-						
-					}else{
-						alert(errors.join("\n"));
-						errors = [];
-					}
-				}
-				
-				img.setAttribute('src', e.target.result);
-				img.setAttribute('width', img.width);
-				img.setAttribute('height', img.height);
-			}
-
-			reader.readAsDataURL(this.files[0]);
-
-		}else{
-			errors.push("File is not a valid image");
-		}
-	}
-	
-	function checkErrors(){
-		if(errors.length === 0){
-			return false;
-		}else{
-			return true;
-		}
-	}
 
 	Picture.prototype.edit = function($el,elementId){ console.log('[Picture] edit');
+		this.$el = $el;
+		this.elementId = elementId;	
+		this.$el.find("#"+elementId).append(new PictureEdit($el, this.imgSrc,elementId));
 	};
 
 	Picture.prototype.confirm = function(){ console.log('[Picture] confirm');
+		this.imgSrc = this.$el.find("#"+this.elementId+" .input-picture").val();
+		this.endEdit();
 	};
 
 	Picture.prototype.endEdit = function(){ console.log('[Picture] endEdit');
+
+	console.log(this.elementId);
+		this.$el.find("#"+this.elementId+" > .input-picture").remove();
+
 	};
 
 	return Picture;

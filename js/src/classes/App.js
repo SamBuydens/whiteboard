@@ -38,28 +38,29 @@ module.exports = (function(){
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
 		for(var type in this.types) {
-  			this.dataHandler.loadBoardElements(this.types[type]);
+  			this.dataHandler.loadBoardElements(this.types[type],this.whiteboardId);
 		}
 	};
 
 	App.prototype.addToElementList = function(event){ console.log('[App] addToElementList');
 		this.elementList.push(this.dataHandler.getBoardElements());
-		this.i++
-		if(this.i == this.types.length){
+		this.i++;
+		if(this.i === this.types.length){
 			this.addToBoard();
 		}
 	};
 
 	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 		var list = this.elementList[0][0];
-		for(var element in list) {
-  			var type = list[element].el_type;
+		console.log(list);
+		for(var elementItem in list) {
+  			var type = list[elementItem].el_type;
   			var position = {};
-  			position.yPos = Number(list[element].posy);
-  			position.xPos = Number(list[element].posx);
-  			var elementId = list[element].id_on_board;
-  			var id = list[element].id;
-  			var content = list[element].content;
+  			position.yPos = Number(list[elementItem].posy);
+  			position.xPos = Number(list[elementItem].posx);
+  			var elementId = list[elementItem].id_on_board;
+  			var id = list[elementItem].id;
+  			var content = list[elementItem].content;
   			var element = new Element(this.$el,type,position,elementId,content,id);
   			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
   			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
@@ -69,7 +70,7 @@ module.exports = (function(){
 	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 
 		this.dataHandler.removeBoardElement(event.elementType, event.id);
 	};
-
+	
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 
 		this.dataHandler.newBoardElement(type,idOnBoard,this.position,this.whiteboardId);
 	};
@@ -77,7 +78,6 @@ module.exports = (function(){
 	App.prototype.positionChangedHandler = function(event){ console.log('[App] positionChangedHandler');
 		this.dataHandler.positionChange(event.elementType,event.elementId,event.eTarget.css('left'),event.eTarget.css('top'),this.whiteboardId);
 	};
-
 	return App;
 
 })();

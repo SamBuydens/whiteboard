@@ -4,6 +4,10 @@ body{
     font-size: 62.5%;
 }
 
+#container{
+	font-size: 1.3em;
+
+}
 #whiteboard {
     width: 100vw;
     height: 100vh;
@@ -45,18 +49,41 @@ body{
 	min-height: 75px;
 	background-color: #ffffff;
 	cursor: move;
-
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-#whiteboardSettings{
-	float: right;
-	margin: 20px, 50px, 10px, 10px;
- 	width: 120px;
-    background-color: white; 
-    text-align: center;
+.element-holder p{
+	text-align: center;
+}
+
+.settings{
+	width: 120px;
+	background-color: #fff;
+	padding: 10px;
+	text-align: left;
+	z-index: 999;
+	position: absolute;
 }
 
 .image-input-preview{
 	background-size: contain;
 	background-repeat: no-repeat;
+}
+
+.btn-delete {
+	top: 0;
+	margin-left: 10px;
+	bottom: 0;
+	background: #eb9093;
+	color: white;
+}
+
+.btn {
+	border: 0;
+	cursor: pointer;
 }

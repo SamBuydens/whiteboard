@@ -48,13 +48,11 @@ module.exports = (function(){
 		    	this.element = new Picture(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createPicture);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
-		    	this.element.initImageInputs();
 		        break;
 			case "motion":
 		    	this.element = new Motion(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
-		    	this.element.initMotionInputs();
 		        break;
 		}
 	};
@@ -65,6 +63,7 @@ module.exports = (function(){
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
+
 		if(event.target.id === this.elementId){
 	
         	this.mouseDown = true;
@@ -142,7 +141,7 @@ module.exports = (function(){
 			for(i = 0;i < holders.length; i++ ){
 				idHolder.push(holders[i].id);
 			}
-			idHolder.sort(function(a, b){return b-a});
+			idHolder.sort(function(a, b){return b-a;});
 			return String(Number(idHolder[0])+1);
     	} else{
     		return "0";
