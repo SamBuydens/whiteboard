@@ -61,4 +61,16 @@ class PostitsDAO
         }
         return false;
     }
+
+    public function updateContent($whiteboard_id,$id_on_board,$content){
+        $sql = 'UPDATE wb_postit SET content=:content WHERE whiteboard_id=:whiteboard_id AND id_on_board=:id_on_board';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':whiteboard_id',$whiteboard_id);
+        $stmt->bindValue(':id_on_board',$id_on_board);
+        $stmt->bindValue(':content',$content);
+        if($stmt->execute()){   
+            return $content;
+        }
+        return false;
+    }
 }

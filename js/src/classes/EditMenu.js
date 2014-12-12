@@ -40,7 +40,7 @@ module.exports = (function(){
 
 	EditMenu.prototype.clickHandler = function(event){ console.log('[EditMenu] clickHandler');
 		if(event.target.className === "editButton"){
-			bean.fire(this, "edit-clicked", actionEvent);
+			bean.fire(this, "edit-clicked");
 			this.toggleVisible();
 		}else{
 			var actionEvent = {};

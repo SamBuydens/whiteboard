@@ -52,4 +52,15 @@ $app->post("/postits/change/position/?", function() use ($app, $postitsDAO){
 	exit();
 });
 
+$app->post("/postits/change/content/?", function() use ($app, $postitsDAO){
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'content' => $_POST['content'],
+		'whiteboard_id' => $_POST['whiteboard_id']
+	);
+	header('Content-Type: application/json');
+	echo json_encode($postitsDAO->updateContent($result['whiteboard_id'],$result['id_on_board'], $result['content']));
+	exit();
+});
+
 $app->run();

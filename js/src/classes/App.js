@@ -52,7 +52,6 @@ module.exports = (function(){
 
 	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 		var list = this.elementList[0][0];
-		console.log(list);
 		for(var elementItem in list) {
   			var type = list[elementItem].el_type;
   			var position = {};
@@ -63,8 +62,14 @@ module.exports = (function(){
   			var content = list[elementItem].content;
   			var element = new Element(this.$el,type,position,elementId,content,id);
   			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+  			bean.on(element, "edit-clicked", this.editHandler.bind(this));
   			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		}
+	};
+
+	App.prototype.editHandler = function(event){ console.log('[App] editHandler');
+		console.log("BUUUUUURP = "+event.content);
+		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
 	};
 
 	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 

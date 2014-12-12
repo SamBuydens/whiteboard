@@ -8,6 +8,7 @@ module.exports = (function(){
 
 	function Element($el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
 		this.$el = $el;
+		console.log("ocntenen ==== "+content);
 		this.content = content;
 		this.elementType = elementType;
 		this.elementId = elementId;
@@ -15,7 +16,6 @@ module.exports = (function(){
 			this.elementId = elementId;
 		}else {
 			this.elementId = this.setElementId();
-			console.log("element id = "+this.elementId);
 		}
 		this.position = position;
 		if(id){
@@ -103,6 +103,11 @@ module.exports = (function(){
 		    case "edit":
 		    	this.element.confirm();
 		    	this.editMenu.toggleVisible();
+		    	var actionEvent = {};
+		    	actionEvent.elementType = this.elementType;
+		    	actionEvent.elementId = this.elementId;
+		    	actionEvent.content = this.element.txt;
+		    	bean.fire(this, "edit-clicked", actionEvent);
 		        break;
 		    case "cancel":
 		    	this.element.endEdit();
