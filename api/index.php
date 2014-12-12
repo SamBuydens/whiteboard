@@ -28,9 +28,27 @@ $app->get("/postits/delete/:id/?", function($id) use ($postitsDAO){
 	exit();
 });
 
-$app->post("/postits/add/:whiteboard_id/:id_on_board/:xpos/:ypos/?",function($whiteboard_id,$id_on_board,$xpos,$ypos) use ($app,$postitsDAO){
-	header("Content-Type:application/json");
-	echo json_encode($postitsDAO->addPostit($whiteboard_id,$id_on_board,$xpos,$ypos));
+$app->post("/postits/add/?", function() use ($app, $postitsDAO){
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'xpos' => $_POST['xpos'],
+		'ypos' => $_POST['ypos'],
+		'whiteboardId' => $_POST['whiteboardId']
+	);
+	header('Content-Type: application/json');
+	echo json_encode($postitsDAO->addNewPostit($result['whiteboardId'],$result['id_on_board'], $result['xpos'], $result['ypos']));
+	exit();
+});
+
+$app->post("/postits/change/position/?", function() use ($app, $postitsDAO){
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'xpos' => $_POST['xpos'],
+		'ypos' => $_POST['ypos'],
+		'whiteboard_id' => $_POST['whiteboard_id']
+	);
+	header('Content-Type: application/json');
+	echo json_encode($postitsDAO->updatePosition($result['whiteboard_id'],$result['id_on_board'], $result['xpos'], $result['ypos']));
 	exit();
 });
 

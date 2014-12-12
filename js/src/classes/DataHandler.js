@@ -47,12 +47,46 @@ module.exports = (function(){
 		});
 	};
 
-	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){
+	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){ console.log('[DataHandler] newBoardElement');
+		switch(elementType) {
+		    case "post-it":
+		    	this.newElement('postits',id_on_board, position, whiteboardId);
+		        break;
+		    case "static":
+		    	this.newElement('static',id);
+		        break;
+		    case "motion":
+		    	this.newElement('motion',id);
+		        break;
+		}
+	};
+
+	DataHandler.prototype.newElement = function(id_on_board,position,whiteboardId){
 		$.ajax({
 	  		type: "POST",
-	  		url: this.url+"postits"+'/add/'+whiteboardId+"/"+id_on_board+"/"+position.xPos+"/"+position.yPos,
-	  		success: function(){
-	  			console.log("new element posted");
+	  		url: this.url+elementType+'/add',
+	  		data: {id_on_board: id_on_board, xpos: position.xPos, ypos: position.yPos, whiteboardId: whiteboardId},
+	  		success: function(data) {
+	  			console.log('success:', data);
+	  		},
+	  		error: function(error) {
+	  			console.log('error');
+	  			console.log(error);
+	  		}
+		});
+	};
+
+	DataHandler.prototype.positionChange = function(elementType,id_on_board,xpos,ypos,whiteboardId){
+		$.ajax({
+	  		type: "POST",
+	  		url: this.url+'postits'+'/change/position',
+	  		data: {whiteboard_id: whiteboardId,id_on_board: id_on_board, xpos: xpos, ypos: ypos},
+	  		success: function(data) {
+	  			console.log('success:', data);
+	  		},
+	  		error: function(error) {
+	  			console.log('error');
+	  			console.log(error);
 	  		}
 		});
 	};

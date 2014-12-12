@@ -5,7 +5,6 @@ module.exports = (function(){
 	function Whiteboard($el, boardName) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
 		this.createWhiteboard();
-
 	}
 
 	Whiteboard.prototype.createWhiteboard = function(){ console.log('[Whiteboard] createWhiteboard');

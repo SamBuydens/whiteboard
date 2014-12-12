@@ -32,7 +32,8 @@ module.exports = (function(){
 	App.prototype.elementPickerClickedHandler = function(event){ console.log('[App] elementPickerClickedHandler'); 
 		this.elementPicker.toggleVisible();
 		var element = new Element(this.$el,event,this.position);
-		this.newElement(event, element.elementId)
+		this.newElement(event, element.elementId);
+		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -61,6 +62,7 @@ module.exports = (function(){
   			var content = list[element].content;
   			var element = new Element(this.$el,type,position,elementId,content,id);
   			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+  			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		}
 	};
 
@@ -70,6 +72,10 @@ module.exports = (function(){
 
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 
 		this.dataHandler.newBoardElement(type,idOnBoard,this.position,this.whiteboardId);
+	};
+
+	App.prototype.positionChangedHandler = function(event){ console.log('[App] positionChangedHandler');
+		this.dataHandler.positionChange(event.elementType,event.elementId,event.eTarget.css('left'),event.eTarget.css('top'),this.whiteboardId);
 	};
 
 	return App;
