@@ -38,7 +38,7 @@ module.exports = (function(){
 
 	Element.prototype.createElement = function(){ console.log('[Element] createElement');
 		switch(this.elementType) {
-			case "post-it":
+		case "post-it":
 		    	this.element = new Postit(this.content);
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit());
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
@@ -66,17 +66,12 @@ module.exports = (function(){
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
 		if(event.target.id === this.elementId){
-			
-			if(e.target.id !== "whiteboard"){
-        	    this.$el.find("#element-picker").removeClass("hidden");
-			}
 	
         	this.mouseDown = true;
        		this.currentLeft = $(e.target).css('left');
        		this.currentTop = $(e.target).css('top');
         	this._mouseMoveHandler = this.mouseMoveHandler.bind(this);
         	this._mouseUpHandler = this.mouseUpHandler.bind(this);
-	
         	this.offsetX = e.offsetX;
         	this.offsetY = e.offsetY;
         	++zIndexCounter;

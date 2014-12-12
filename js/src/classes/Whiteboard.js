@@ -22,7 +22,7 @@ module.exports = (function(){
    		var position = {};
    		position.xPos = xPos;
    		position.yPos = yPos;
-		if(event.target.id === "whiteboard"){ //anders klikt hij "door" elementen
+		if(event.target.id === "whiteboard"){
 			bean.fire(this, "whiteboard-clicked", position);
 		}
 	};
