@@ -1,6 +1,6 @@
 module.exports = (function(){
 
-	var App = require('./App');
+	//var App = require('./App');
 	var OverviewElement = require('./OverviewElement');
 	var OverviewHandler = require('./OverviewHandler');
 
@@ -24,12 +24,8 @@ module.exports = (function(){
 	};
 
 	Overview.prototype.makeNewProjectHandler = function(event) { console.log('[Overview] makeNewProjectHandler');
-		$("#container").html("");
+		//$("#container").html("");
 		//new App($('#container'));
-
-		if(this.user){
-
-		}
 	};
 
 

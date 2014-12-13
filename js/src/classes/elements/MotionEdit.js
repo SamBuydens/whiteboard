@@ -18,19 +18,20 @@ module.exports = (function(){
 	}
 
  	function playSelectedFile(event) { console.log('[Motion] playSelectedFile');
-		var elementId = event.target.parentNode.id;
-		var vid = $('#'+elementId+' > .motion > video')[0];
-        var file = this.files[0];
-        var type = file.type;
-        var canPlay = vid.canPlayType(type);
-        canPlay = (canPlay === '' ? 'no' : canPlay);
-        //var message = 'Can play type "' + type + '": ' + canPlay;
-        //var isError = canPlay === 'no';
-        if(URL){
-	        var fileURL = URL.createObjectURL(file);
-	        vid.src = fileURL;
-	        vid.autoPlay = true;
-       	}
+			var elementId = event.target.parentNode.id;
+			var vid = document.querySelector('#'+elementId+' > .motion > video');
+            var file = this.files[0];
+            var type = file.type;
+            var canPlay = vid.canPlayType(type);
+            canPlay = (canPlay === '' ? 'no' : canPlay);
+            var message = 'Can play type "' + type + '": ' + canPlay;
+            var isError = canPlay === 'no';
+
+            if(URL){
+            var fileURL = URL.createObjectURL(file);
+            vid.src = fileURL;
+            vid.autoPlay = true;
+        	}
 	}
 	
 	return MotionEdit;

@@ -6,7 +6,6 @@ module.exports = (function(){
 		this.$el = $el;
 		this.createWhiteboard();
 		this.addWhiteboardSettings();
-
 	}
 
 	Whiteboard.prototype.createWhiteboard = function(){ console.log('[Whiteboard] createWhiteboard');
@@ -24,7 +23,7 @@ module.exports = (function(){
    		var position = {};
    		position.xPos = xPos;
    		position.yPos = yPos;
-		if(event.target.id === "whiteboard"){ //anders klikt hij "door" elementen
+		if(event.target.id === "whiteboard"){
 			bean.fire(this, "whiteboard-clicked", position);
 		}
 	};

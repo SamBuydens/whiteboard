@@ -22,7 +22,9 @@ class PostitsDAO
         }
         return array();
     }
-    public function deletePostitById($id){
+
+    
+    public function deletePotitById($id){
         $sql = "DELETE
                 FROM wb_postit
                 WHERE id = :id";
@@ -33,7 +35,9 @@ class PostitsDAO
         }
         return false;
     }
-    public function addPostit($whiteboard_id ,$id_on_board, $posx, $posy){
+
+
+    public function addNewPostit($whiteboard_id ,$id_on_board, $posx, $posy){
         $sql = "INSERT INTO wb_postit(whiteboard_id,id_on_board, posx, posy)
                 VALUES (:whiteboard_id,:id_on_board, :posx, :posy)";
         $stmt = $this->pdo->prepare($sql);
@@ -42,8 +46,22 @@ class PostitsDAO
         $stmt->bindValue(":posx",$posx);
         $stmt->bindValue(":posy",$posy);
         if($stmt -> execute()){
-            //return $this -> getTodoById($this->pdo->lastInsertId());
+            return 'success';
         }
         return array();
+    }
+
+
+    public function updatePosition($whiteboard_id,$id_on_board,$posx,$posy){
+        $sql = 'UPDATE wb_postit SET posx=:posx, posy=:posy WHERE whiteboard_id=:whiteboard_id AND id_on_board=:id_on_board';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':whiteboard_id',$whiteboard_id);
+        $stmt->bindValue(':id_on_board',$id_on_board);
+        $stmt->bindValue(':posx',$posx);
+        $stmt->bindValue(':posy',$posy);
+        if($stmt->execute()){   
+            return 'updated';
+        }
+        return false;
     }
 }

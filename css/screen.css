@@ -108,6 +108,7 @@ body {
   z-index: 999;
   position: absolute;
   right: 30px;
+  top: 20px;
 }
 
 #register {

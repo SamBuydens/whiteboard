@@ -15,6 +15,7 @@ module.exports = (function(){
 			this.elementId = elementId;
 		}else {
 			this.elementId = this.setElementId();
+			console.log("element id = "+this.elementId);
 		}
 		this.position = position;
 		if(id){
@@ -37,17 +38,17 @@ module.exports = (function(){
 
 	Element.prototype.createElement = function(){ console.log('[Element] createElement');
 		switch(this.elementType) {
-		    case "post-it":
+		case "post-it":
 		    	this.element = new Postit(this.content);
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
-		    case "static":
+			case "static":
 		    	this.element = new Picture(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createPicture);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
-		    case "motion":
+			case "motion":
 		    	this.element = new Motion(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
@@ -57,25 +58,24 @@ module.exports = (function(){
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
 		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
-		console.log("ddddd");
 		console.log(this.$el.find("#"+this.elementId));
 		this.mouseDown = false;
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
-        this.mouseDown = true;
-        
-        this._mouseMoveHandler = this.mouseMoveHandler.bind(this);
-        this._mouseUpHandler = this.mouseUpHandler.bind(this);
-
-        this.offsetX = e.offsetX;
-        this.offsetY = e.offsetY;
-                
-        ++zIndexCounter;
-        this.$el.find("#"+this.elementId).css('zIndex', zIndexCounter);
-        
-        document.body.addEventListener('mousemove', this._mouseMoveHandler);
-        document.body.addEventListener('mouseup', this._mouseUpHandler);
+		if(event.target.id === this.elementId){
+        	this.mouseDown = true;
+       		this.currentLeft = $(e.target).css('left');
+       		this.currentTop = $(e.target).css('top');
+        	this._mouseMoveHandler = this.mouseMoveHandler.bind(this);
+        	this._mouseUpHandler = this.mouseUpHandler.bind(this);
+        	this.offsetX = e.offsetX;
+        	this.offsetY = e.offsetY;
+        	++zIndexCounter;
+        	this.$el.find("#"+this.elementId).css('zIndex', zIndexCounter);
+        	document.body.addEventListener('mousemove', this._mouseMoveHandler);
+        	document.body.addEventListener('mouseup', this._mouseUpHandler);
+        }
 	};
 
 	Element.prototype.createEditMenu = function(){ console.log('[Element] createEditMenu');
@@ -98,7 +98,7 @@ module.exports = (function(){
 		    	actionEvent.elementType = this.elementType;
 		    	bean.fire(this, "remove-clicked", actionEvent);
 		        break;
-		    case "edit": console.log("EDITE");
+		    case "edit":
 		    	this.element.confirm();
 		    	this.editMenu.toggleVisible();
 		        break;
@@ -108,6 +108,7 @@ module.exports = (function(){
 		        break;
 		}
 	};
+
     Element.prototype.mouseMoveHandler = function(e){ console.log('[Element] mousemoveHandler');
         if(this.mouseDown === true){
             var mouseX = parseInt(e.clientX);
@@ -118,22 +119,32 @@ module.exports = (function(){
     };
 
     Element.prototype.mouseUpHandler = function(e){ console.log('[Element] mouseupHandler');
-
         this.mouseDown = false;
-        
         document.body.removeEventListener('mousemove', this._mouseMoveHandler);
         document.body.removeEventListener('mouseup', this._mouseUpHandler);
+
+        if(this.currentTop !== $(e.target).css('top') || this.currentLeft !== $(e.target).css('left')){
+        	var actionEvent = {};
+        	actionEvent.eTarget = $(e.target);
+        	actionEvent.elementType = this.elementType;
+        	actionEvent.elementId = this.elementId;
+        	bean.fire(this, "position-changed", actionEvent);
+        }
     };
 
     Element.prototype.setElementId = function(e){ console.log('[Element] setElementId');
-    var holders = this.$el.find(".element-holder");
-			var idHolder =["0"];
+    	var holders = this.$el.find(".element-holder");
+    	if(holders.length > 0){
+    		var idHolder =[];
 			for(i = 0;i < holders.length; i++ ){
 				idHolder.push(holders[i].id);
 			}
-			idHolder.sort(function(a, b){return b-a});
-			return Number(idHolder[0])+1;
-		};
+			idHolder.sort(function(a, b){return b-a;});
+			return String(Number(idHolder[0])+1);
+    	} else{
+    		return "0";
+    	}
+	};
 
 	return Element;
 

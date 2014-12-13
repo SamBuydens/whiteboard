@@ -44,6 +44,7 @@ module.exports = (function(){
 		this.password_2 = this.$el.find('.register_password_2').val();
 
 		if(this.password==this.password_2){
+			//existing user nog checken!
 			this.userHandler.register(this.username, this.email, this.password);
 		}
 	};
@@ -62,7 +63,6 @@ module.exports = (function(){
 
 	Profile.prototype.bindUser = function(event){ console.log('[Profile] bindUser');
 		this.user= [event];
-		//bean.fire(this.user, 'logged-in');
 		if(this.user[0]){
 			$('input').val("");
 			$("#register-button").addClass('hidden');
