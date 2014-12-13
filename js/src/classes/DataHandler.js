@@ -94,7 +94,7 @@ module.exports = (function(){
 	};
 
 	DataHandler.prototype.getAllBoards = function(){ console.log('[DataHandler] getAllBoards');
-		return $.ajax({
+		 $.ajax({
 		  	type: "GET",
 		  	url: this.url+'/boards/',
 		  	data: {content: 'content'},

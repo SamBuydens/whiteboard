@@ -15,8 +15,6 @@ module.exports = (function(){
 		});
 	};
 
-
-
 	UserHandler.prototype.register = function(username, email, password){ console.log('[UserHandler] register');
 			$.ajax({
 		  		type: "POST",
