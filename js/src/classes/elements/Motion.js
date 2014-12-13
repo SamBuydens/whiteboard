@@ -6,8 +6,7 @@ module.exports = (function(){
 		this.$el = $el;
 		if(vidSrc){
 		this.vidSrc = vidSrc;
-		};
-		
+		}
 	}
 
 	Motion.prototype.createMotion = function(){ console.log('[Motion] creatMotion');
@@ -22,7 +21,7 @@ module.exports = (function(){
 		}
 
 		var html = template(context);
-		return($(html));
+		$('#id="whiteboard"').append($(html));
 		
 	};
 	

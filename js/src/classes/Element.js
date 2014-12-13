@@ -39,7 +39,6 @@ module.exports = (function(){
 		switch(this.elementType) {
 		    case "post-it":
 		    	this.element = new Postit(this.content);
-		    	this.$el.find("#"+this.elementId).append(this.element.createPostit());
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
@@ -58,6 +57,8 @@ module.exports = (function(){
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
 		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
+		console.log("ddddd");
+		console.log(this.$el.find("#"+this.elementId));
 		this.mouseDown = false;
 	};
 
@@ -125,8 +126,8 @@ module.exports = (function(){
     };
 
     Element.prototype.setElementId = function(e){ console.log('[Element] setElementId');
-    	var holders = this.$el.find(".element-holder");
-			var idHolder =[];
+    var holders = this.$el.find(".element-holder");
+			var idHolder =["0"];
 			for(i = 0;i < holders.length; i++ ){
 				idHolder.push(holders[i].id);
 			}

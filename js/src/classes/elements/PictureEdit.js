@@ -9,7 +9,7 @@ module.exports = (function(){
 			window.Blob
 		) {
 			console.log("Full file support");
-		};
+		}
 
 		this.$el = $el;
 		var entryText = $('#picture-edit-template').text();
@@ -23,7 +23,7 @@ module.exports = (function(){
 	}
 	
 	function initImageInput(elementId){ console.log('[PictureEdit] initImageInput');
-		var imgInputs = document.querySelector('#'+elementId+' > .input-picture');
+		var imgInputs = $('#'+elementId+' > .input-picture')[0];
 		imgInputs.addEventListener('change', createThumb);
 	}
 	
@@ -35,7 +35,7 @@ module.exports = (function(){
 			this.files[0].type.match('image.*')
 		) {
 			var reader = new FileReader();
-			var img = document.querySelector('#'+elementId+'> .picture > #image-preview');
+			var img = $('#'+elementId+'> .picture > #image-preview')[0];
 
 			reader.onload = function(e){
 				img.setAttribute('src', e.target.result);
@@ -47,11 +47,10 @@ module.exports = (function(){
 						img.style.height = img.width+"px";
 						img.style.width = img.height+"px";
 					}else{
-						alert(errors.join("\n"));
 						errors = [];
 					}
-				}
-			}
+				};
+			};
 			reader.readAsDataURL(this.files[0]);
 
 		}else{

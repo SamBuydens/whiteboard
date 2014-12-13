@@ -1,7 +1,7 @@
 <?php
 
 require_once '../classes' . DIRECTORY_SEPARATOR . 'DatabasePDO.php';
-require_once 'PostitsDAO.php';
+require_once 'PictureDAO.php';
 
 
 class Picture

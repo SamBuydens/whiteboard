@@ -6,8 +6,21 @@ module.exports = (function(){
 		this.$el = $el;
 		this.$participants = $participants;
 		this.$title = $title;
-		this.bindHandler();
 
+		var entryText = $('#settings-template').text();
+		var template = Handlebars.compile(entryText);
+	 	var context = {};
+	 	if(this.$title){
+	 		context.title = $title;
+	 	}else{
+	 		context.title = "Untitled";
+	 	}
+			
+		var html = template(context);
+		console.log(html);
+		$("#container").append($(html));
+
+		this.bindHandler();
 	}
 
 	WhiteboardSettings.prototype.toggleVisible = function(){ console.log('[WhiteboardSettings] toggleVisible');

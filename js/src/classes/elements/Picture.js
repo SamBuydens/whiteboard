@@ -6,9 +6,7 @@ module.exports = (function(){
 		console.log($el);
 		if(imgSrc){
 		this.imgSrc = imgSrc;
-		};
-
-	
+		}
 	}
 
 	Picture.prototype.createPicture = function(){ console.log('[Picture] creatPicture');

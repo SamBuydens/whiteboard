@@ -3,7 +3,6 @@
 require_once '../classes' . DIRECTORY_SEPARATOR . 'DatabasePDO.php';
 require_once 'BoardsDAO.php';
 
-
 class BoardsDAO
 {
     public $pdo;
