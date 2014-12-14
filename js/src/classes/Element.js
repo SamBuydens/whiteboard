@@ -73,12 +73,15 @@ module.exports = (function(){
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
 		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
-		console.log(this.$el.find("#"+this.elementId));
 		this.mouseDown = false;
 	};
 
 	Element.prototype.imageChangedHandler = function(event){ console.log('[Element] imageChangedHandler');
-		bean.fire(this, "image-changed", event);
+		var actionEvent = {};
+		actionEvent.content = event;
+		actionEvent.elementId = this.elementId;
+		actionEvent.elementType = this.elementType;
+		bean.fire(this, "image-changed", actionEvent);
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');

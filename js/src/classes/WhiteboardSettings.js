@@ -17,7 +17,6 @@ module.exports = (function(){
 	 	}
 			
 		var html = template(context);
-		console.log(html);
 		$("#container").append($(html));
 
 		this.bindHandler();

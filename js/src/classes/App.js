@@ -1,14 +1,14 @@
 module.exports = (function(){
+
 	var Whiteboard = require('./Whiteboard');
 	var ElementPicker = require('./ElementPicker');
 	var Element = require('./Element');
 	var DataHandler = require('./DataHandler');
 
-
-	function App($el, id) { console.log('[App] constructor');
+	function App($el) { console.log('[App] constructor');
 		this.$el = $el;
-		this.whiteboardId = id;
-		this.types = ['postits'];
+		this.whiteboardId = 1;
+		this.types = ['postits', 'statics'];
 		this.i = 0;
 		this.elementList = [];
 		this.position = {};
@@ -44,16 +44,13 @@ module.exports = (function(){
 	};
 
 	App.prototype.addToElementList = function(event){ console.log('[App] addToElementList');
-		this.elementList.push(this.dataHandler.getBoardElements());
-		this.i++;
-		if(this.i === this.types.length){
-			this.addToBoard();
-		}
+		this.addToBoard(event);
 	};
 
-	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
-		var list = this.elementList[0][0];
+	App.prototype.addToBoard = function(event){ console.log('[App] addToBoard'); 
+		var list = event;
 		for(var elementItem in list) {
+			console.log(list[elementItem]);
   			var type = list[elementItem].el_type;
   			var position = {};
   			position.yPos = Number(list[elementItem].posy);
@@ -70,7 +67,7 @@ module.exports = (function(){
 	};
 
 	App.prototype.imageChangedHandler = function(event){ console.log('[App] imageChangedHandler');
-		//this.dataHandler.
+		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
 	};
 
 	App.prototype.editHandler = function(event){ console.log('[App] editHandler');
@@ -82,8 +79,6 @@ module.exports = (function(){
 	};
 	
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 
-				console.log(this.whiteboardId);
-
 		this.dataHandler.newBoardElement(type,idOnBoard,this.position,this.whiteboardId);
 	};
 
