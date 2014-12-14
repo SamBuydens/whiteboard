@@ -28,7 +28,7 @@ module.exports = (function(){
 		    	this.removeElementById('postits',id);
 		        break;
 		    case "static":
-		    	this.removeElementById('static',id);
+		    	//this.removeElementById('static',id);
 		        break;
 		    case "motion":
 		    	this.removeElementById('motion',id);
@@ -53,7 +53,7 @@ module.exports = (function(){
 		    	this.newElement('postits',id_on_board, position, whiteboardId);
 		        break;
 		    case "static":
-		    	this.newElement('static',whiteboardId);
+		    	//this.newElement('static',id_on_board, position, whiteboardId);
 		        break;
 		    case "motion":
 		    	this.newElement('motion',whiteboardId);
@@ -82,7 +82,7 @@ module.exports = (function(){
 		    	this.newPosition('postits',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		    case "static":
-		    	this.newPosition('static',whiteboardId);
+		    	//this.newPosition('static',whiteboardId);
 		        break;
 		    case "motion":
 		    	this.newPosition('motion',whiteboardId);

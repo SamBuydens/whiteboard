@@ -7,7 +7,6 @@ module.exports = (function(){
 		if(vidSrc){
 		this.vidSrc = vidSrc;
 		}
-		
 	}
 
 	Motion.prototype.createMotion = function(){ console.log('[Motion] creatMotion');

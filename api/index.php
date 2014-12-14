@@ -63,4 +63,18 @@ $app->post("/postits/change/content/?", function() use ($app, $postitsDAO){
 	exit();
 });
 
+//STATICS
+
+$app->post("/statics/add/?", function() use ($app, $postitsDAO){
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'xpos' => $_POST['xpos'],
+		'ypos' => $_POST['ypos'],
+		'whiteboardId' => $_POST['whiteboardId']
+	);
+	header('Content-Type: application/json');
+	echo json_encode($postitsDAO->addNewPostit($result['whiteboardId'],$result['id_on_board'], $result['xpos'], $result['ypos']));
+	exit();
+});
+
 $app->run();

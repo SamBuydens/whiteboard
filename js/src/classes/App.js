@@ -34,6 +34,7 @@ module.exports = (function(){
 		var element = new Element(this.$el,event,this.position);
 		this.newElement(event, element.elementId);
 		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
+		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -64,11 +65,15 @@ module.exports = (function(){
   			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
   			bean.on(element, "edit-clicked", this.editHandler.bind(this));
   			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
+  			bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
 		}
 	};
 
+	App.prototype.imageChangedHandler = function(event){ console.log('[App] imageChangedHandler');
+		//this.dataHandler.
+	};
+
 	App.prototype.editHandler = function(event){ console.log('[App] editHandler');
-		console.log("BUUUUUURP = "+event.content);
 		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
 	};
 

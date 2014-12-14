@@ -40,13 +40,26 @@ module.exports = (function(){
 		switch(this.elementType) {
 		case "post-it":
 		    	this.element = new Postit(this.content);
-		    	this.$el.find("#"+this.elementId).append(this.element.createPostit());
-		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
+		    	if(this.content){
+		    		this.$el.find("#"+this.elementId).append(this.element.createPostit());
+		    	} else{
+		    		this.$el.find("#"+this.elementId).append(this.element.createPostit());
+		    		this.element.edit(this.$el, this.elementId);
+		    		this.editMenu.toggleVisible();
+		    	}
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "static":
-		    	this.element = new Picture(this.$el.find("#"+this.elementId));
-		    	this.$el.find("#"+this.elementId).append(this.element.createPicture);
+		    	this.element = new Picture(this.content, this.elementId);
+		    	if(this.content){
+		    		this.$el.find("#"+this.elementId).append(this.element.createPicture());
+		    		bean.on(this.element, "image-changed", this.imageChangedHandler.bind(this));
+		    	} else{
+		    		this.$el.find("#"+this.elementId).append(this.element.createPicture());
+		    		this.element.edit(this.$el, this.elementId);
+		    		bean.on(this.element, "image-changed", this.imageChangedHandler.bind(this));
+		    		this.editMenu.toggleVisible();
+		    	}
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "motion":
@@ -62,10 +75,13 @@ module.exports = (function(){
 		this.mouseDown = false;
 	};
 
+	Element.prototype.imageChangedHandler = function(event){ console.log('[Element] imageChangedHandler');
+		bean.fire(this, "image-changed", event);
+	};
+
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
 
 		if(event.target.id === this.elementId){
-	
         	this.mouseDown = true;
        		this.currentLeft = $(e.target).css('left');
        		this.currentTop = $(e.target).css('top');
@@ -86,7 +102,7 @@ module.exports = (function(){
 		bean.on(this.editMenu, "action-clicked", this.actionClickedHandler.bind(this));
 	};
 
-	Element.prototype.editClickedHandler = function(event){ console.log('[Element] editClickedHandler');
+	Element.prototype.editClickedHandler = function(){ console.log('[Element] editClickedHandler');
 		this.element.edit(this.$el, this.elementId);
 	};
 
@@ -103,7 +119,7 @@ module.exports = (function(){
 		    case "edit":
 		    	this.element.confirm();
 		    	this.editMenu.toggleVisible();
-		    	var actionEvent = {};
+		    	actionEvent = {};
 		    	actionEvent.elementType = this.elementType;
 		    	actionEvent.elementId = this.elementId;
 		    	actionEvent.content = this.element.txt;
