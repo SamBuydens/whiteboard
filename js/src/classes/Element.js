@@ -47,6 +47,7 @@ module.exports = (function(){
 		    		this.element.edit(this.$el, this.elementId);
 		    		this.editMenu.toggleVisible();
 		    	}
+		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "static":
@@ -72,6 +73,7 @@ module.exports = (function(){
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
 		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
+		console.log(this.$el.find("#"+this.elementId));
 		this.mouseDown = false;
 	};
 
@@ -80,7 +82,6 @@ module.exports = (function(){
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
-
 		if(event.target.id === this.elementId){
         	this.mouseDown = true;
        		this.currentLeft = $(e.target).css('left');

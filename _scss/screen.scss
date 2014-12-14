@@ -68,6 +68,7 @@ body{
 	text-align: left;
 	z-index: 999;
 	position: absolute;
+	top: 0px;
 }
 
 .image-input-preview{
@@ -75,15 +76,47 @@ body{
 	background-repeat: no-repeat;
 }
 
-.btn-delete {
+.delete {
 	top: 0;
 	margin-left: 10px;
 	bottom: 0;
-	background: #eb9093;
-	color: white;
 }
 
 .btn {
 	border: 0;
 	cursor: pointer;
+	background: #eb9093;
+	color: white;
+	padding: 5px 10px;
+	width: 100px;
+	text-align: center;
+
+}
+
+#addProject{
+	position: absolute;
+	right: 70%;
+}
+
+#register-button{
+	right: 30px;	
+	position: absolute;	
+	top:0px;
+}
+
+#login, #logout{
+	width: 100px;
+	z-index: 999;
+	position: absolute;
+	right: 30px;	
+	top: 20px;	
+}
+
+#register{
+	width: 100px;
+	z-index: 999;
+	position: absolute;
+	right: 30px;	
+	top: 110px;
+	
 }

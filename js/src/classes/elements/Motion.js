@@ -21,7 +21,7 @@ module.exports = (function(){
 		}
 
 		var html = template(context);
-		return($(html));
+		$('#id="whiteboard"').append($(html));
 		
 	};
 	

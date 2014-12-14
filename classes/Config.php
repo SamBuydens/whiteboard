@@ -5,4 +5,6 @@ class Config{
     const DB_USER = 'cp3';
     const DB_PASS = 'board';
     const DB_NAME = 'whiteboard';
+    const SALT = 'cp3';
+
 }

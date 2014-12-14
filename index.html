@@ -10,28 +10,45 @@
 
 
 	<div id="container">
-		<!-- Settings Template -->
+		<button id="addProject">add new project!</button>
+		<button id="register-button">registreer</button>
+
+	</div>
+
+	<!-- Settings Title Template -->
+		<script id="settings-template" type="text/template">
 		<section class="settings">
 			<div class="hide_section">
 				<p class="settings-title">Thema: </p>
 				<input type="text" class="title-input" value="Untitled"/>
-
 				<p class="settings-contributor">Participants: </p>
 				<input type="email" class="participant-input" name='participant-input' placeholder="Give an email and press enter to add" />
-					<ul id="participant-list">
-						<script id="settings-template" type="text/template">
-				  			{{#each elements}}
-			  				{{picker}}
-			  				{{/each}}
-			  			</script>
-			  		</ul>
+					<ul id="participant-list"></ul>
 				<span class="add-button">add</span>
 				<span class="hide-button">hide</span>
 			</div>
 			<span class="show-button hidden">show settings!</span>
 		</section>
+		</script>
 
-	</div>
+	<!-- Participant Template -->
+		<script id="participant-template" type="text/template">
+			{{#each participants}}
+				{{participant}}
+			{{/each}}
+		</script>
+
+	<!-- OverviewTumb  Template -->
+	<script id="overviewThumb-template" type="text/template">
+		<section class="OverviewThumb" id="{{id}}">
+			<h2>{{title}}</h2>
+			<p>{{user_name}}</p>
+			<p>{{creation_date}}</p>
+			<p class='btn view'>view</p>
+			<p class='btn remove'>remove</p>
+		<section>
+	</script>
+
 
 	<!-- ElementPicker Template -->
 	<script id="element-picker-template" type="text/template">
@@ -92,6 +109,31 @@
 	<script id="motion-edit-template" type="text/template">
 				<input type="file" class="motion-edit" name="motion-edit"/>
 	</script>
+
+	<!-- Login Template -->
+	<script id="login-template" type="text/template">
+			<section id="login">
+				<input type="email" class="login_email" name="login_email" placeholder="email" value="{{email}}"/>
+				<input type="password" class="login_password" name="login_password" placeholder="passwoord" value=""/>
+				<p class="login btn">Login</p>
+			</section>
+			<section id="logout" class="hidden">
+				<p class="username">{{username}}</p>
+				<p class="logout btn">Logout</p>
+			</section>
+	</script>
+
+	<!-- Register Template -->
+	<script id="register-template" type="text/template">
+			<section id="register" class="hidden">
+				<input type="text" class="register_name" name="register_name" placeholder="username" value="{{username}}"/>
+				<input type="email" class="register_email" name="register_email" placeholder="email" value="{{email}}"/>
+				<input type="password" class="register_password" name="register_password" placeholder="passwoord" value=""/>
+				<input type="password" class="register_password_2" name="register_password_2" placeholder="passwoord" value=""/>
+				<p class="register btn">registreer</p>
+			</section>
+	</script>
+
 
 
 	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>

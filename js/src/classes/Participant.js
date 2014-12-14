@@ -3,17 +3,15 @@ module.exports = (function(){
 	function Participant($el){ console.log('[Participant] constructor');
 		this.$el = $el;
 		var input = $el.find('.participant-input');
-		console.log(input.val())
 		if(input.val()){
-			var entryText = $('#settings-template').text();
+			var entryText = $('#participant-template').text();
 			var template = Handlebars.compile(entryText);
-	 		var context = { elements: [{}]};
-				Handlebars.registerHelper('picker', function() {
+	 		var context = { participants: [{}]};
+				Handlebars.registerHelper('participant', function() {
 				  return new Handlebars.SafeString(
-				    "<li id=''>"+input.val()+"<button class='btn btn-delete'>X</button></li>"
+				    "<li id=''>"+input.val()+"<button class='btn delete'>X</button></li>"
 				  );
 				});
-			
 			var html = template(context);
 			this.$el.find("#participant-list").append($(html));
 			this.bindDeletebutton();

@@ -1,13 +1,13 @@
 module.exports = (function(){
-
 	var Whiteboard = require('./Whiteboard');
 	var ElementPicker = require('./ElementPicker');
 	var Element = require('./Element');
 	var DataHandler = require('./DataHandler');
 
-	function App($el) { console.log('[App] constructor');
+
+	function App($el, id) { console.log('[App] constructor');
 		this.$el = $el;
-		this.whiteboardId = 1;
+		this.whiteboardId = id;
 		this.types = ['postits'];
 		this.i = 0;
 		this.elementList = [];
@@ -82,6 +82,8 @@ module.exports = (function(){
 	};
 	
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 
+				console.log(this.whiteboardId);
+
 		this.dataHandler.newBoardElement(type,idOnBoard,this.position,this.whiteboardId);
 	};
 

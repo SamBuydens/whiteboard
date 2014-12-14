@@ -1,9 +1,10 @@
 module.exports = (function(){
 	var that;
 	function DataHandler() { console.log('[DataHandler] constructor');
-		this.url = "http://localhost:8888/cp3/whiteboard/whiteboard/api/index.php/";
+		this.url = "http://localhost/whiteboard_2/api/index.php/";
 		that = this;
 		this.boardElements = [];
+		this.boardList = [];
 	}
 
 	DataHandler.prototype.loadBoardElements = function(type,whiteboardId){ console.log('[DataHandler] loadBoardElements');
@@ -36,7 +37,7 @@ module.exports = (function(){
 		}
 	};
 
-	DataHandler.prototype.removeElementById = function(elementType,id){
+	DataHandler.prototype.removeElementById = function(elementType,id){ 
 		$.ajax({
 	  		type: "GET",
 	  		url: this.url+elementType+'/delete/'+id,
@@ -46,6 +47,7 @@ module.exports = (function(){
 	  		}
 		});
 	};
+
 
 	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){ console.log('[DataHandler] newBoardElement');
 		switch(elementType) {
@@ -117,6 +119,17 @@ module.exports = (function(){
 	  			console.log('error');
 	  			console.log(error);
 	  		}
+	  	});
+	  };
+
+	DataHandler.prototype.getAllBoards = function(){ console.log('[DataHandler] getAllBoards');
+		 $.ajax({
+		  	type: "GET",
+		  	url: this.url+'/boards/',
+		  	data: {content: 'content'},
+		  	success: function(data){
+		  		this.boardElements.push(data);
+		  	}.bind(this)
 		});
 	};
 

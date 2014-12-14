@@ -13,7 +13,7 @@ module.exports = (function(){
 	}
 
 	function initMotionInput(elementId){ console.log('[Motion] initMotionInput');
-		var fileInput = document.querySelector('#'+elementId+' > input[type=file]');
+		var fileInput = $('#'+elementId+' > input[type=file]')[0];
 	    fileInput.addEventListener('change', playSelectedFile);
 	}
 
