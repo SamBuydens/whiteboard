@@ -45,11 +45,13 @@ module.exports = (function(){
 
 	App.prototype.elementPickerClickedHandler = function(event){ console.log('[App] elementPickerClickedHandler'); 
 		this.elementPicker.toggleVisible();
-		var element = new Element(this.admin, this.$el,event,this.position);
+		var element = new Element(this.$el,event,this.position);
 		this.newElement(event, element.elementId);
 		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
 		bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+		bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+		bean.on(element, "edit-clicked", this.editHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -62,7 +64,6 @@ module.exports = (function(){
 		this.addToBoard(event);
 	};
 
-
 	App.prototype.addToBoard = function(event){ console.log('[App] addToBoard'); 
 		var list = event;
 		for(var elementItem in list) {
@@ -74,12 +75,14 @@ module.exports = (function(){
   			var elementId = list[elementItem].id_on_board;
   			var id = list[elementItem].id;
   			var content = list[elementItem].content;
-  			var element = new Element(this.admin, this.$el,type,position,elementId,content, id, this.admin);
-  			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
-  			bean.on(element, "edit-clicked", this.editHandler.bind(this));
-  			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
-  			bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
-  			bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+  			var element = new Element(this.$el,type,position,elementId,content, id);
+  			if(this.admin === true){
+  				bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+  				bean.on(element, "edit-clicked", this.editHandler.bind(this));
+  				bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
+  				bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+  				bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+  			}
 		}
 	};
 
@@ -96,7 +99,7 @@ module.exports = (function(){
 	};
 
 	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 
-		this.dataHandler.removeBoardElement(event.elementType, event.id);
+		this.dataHandler.removeBoardElement(event.elementType, event.elementId, this.whiteboardId);
 	};
 	
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 

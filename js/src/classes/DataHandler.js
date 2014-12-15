@@ -15,7 +15,7 @@ module.exports = (function(){
 	  					bean.fire(that, "board-info", [data]);
 	  				}
 				});
-	}
+	};
 
 	DataHandler.prototype.loadBoardElements = function(type,whiteboardId){ console.log('[DataHandler] loadBoardElements');
 		return $.ajax({
@@ -28,25 +28,25 @@ module.exports = (function(){
 				});
 	};
 
-	DataHandler.prototype.removeBoardElement = function(elementType,id){ console.log('[DataHandler] removeBoardElement');
+	DataHandler.prototype.removeBoardElement = function(elementType,id_on_board,whiteboardId){ console.log('[DataHandler] removeBoardElement');
 		switch(elementType) {
 		    case "post-it":
-		    	this.removeElementById('postits',id);
+		    	this.removeElementById('postits',id_on_board, whiteboardId);
 		        break;
 		    case "static":
-		    	this.removeElementById('statics',id);
+		    	this.removeElementById('statics',id_on_board, whiteboardId);
 		        break;
 		    case "motion":
-		    	this.removeElementById('motion',id);
+		    	this.removeElementById('motion',id_on_board, whiteboardId);
 		        break;
 		}
 	};
 
-	DataHandler.prototype.removeElementById = function(elementType,id){ 
+	DataHandler.prototype.removeElementById = function(elementType,id_on_board,whiteboard_id){ 
 		$.ajax({
-	  		type: "GET",
-	  		url: this.url+elementType+'/delete/'+id,
-	  		data: {content: 'content'},
+	  		type: "POST",
+	  		url: this.url+elementType+'/delete/',
+	  		data: {id_on_board: id_on_board, whiteboard_id: whiteboard_id},
 	  		success: function(data){
 	  			console.log("deleted = "+data);
 	  		}

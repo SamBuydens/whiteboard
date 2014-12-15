@@ -19,7 +19,6 @@ class UsersDAO
         $stmt->bindValue(':wb_password', $securepassword);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     }
 
     public function register($username, $email, $password){

@@ -28,9 +28,13 @@ $app -> get("/postits/:id/?", function($whiteboard_id) use ($postitsDAO){
 	exit();
 });
 
-$app->get("/postits/delete/:id/?", function($id) use ($postitsDAO){
+$app->post("/postits/delete/?", function() use ($app,$postitsDAO){
 	header("Content-Type:application/json");
-	echo json_encode($postitsDAO->deletePostitById($id));
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'whiteboard_id' => $_POST['whiteboard_id']
+	);
+	echo json_encode($postitsDAO->deletePostitById($result['whiteboard_id'],$result['id_on_board']));
 	exit();
 });
 
@@ -76,9 +80,13 @@ $app -> get("/statics/:id/?", function($whiteboard_id) use ($pictureDAO){
 	exit();
 });
 
-$app->get("/statics/delete/:id/?", function($id) use ($pictureDAO){
+$app->post("/statics/delete/?", function() use ($app,$pictureDAO){
 	header("Content-Type:application/json");
-	echo json_encode($pictureDAO->deletePictureById($id));
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'whiteboard_id' => $_POST['whiteboard_id']
+	);
+	echo json_encode($pictureDAO->deletePictureById($result['whiteboard_id'],$result['id_on_board']));
 	exit();
 });
 
@@ -129,9 +137,13 @@ $app -> get("/motion/:id/?", function($whiteboard_id) use ($motionDAO){
 	exit();
 });
 
-$app->get("/motion/delete/:id/?", function($id) use ($motionDAO){
+$app->post("/motion/delete/?", function() use ($app,$motionDAO){
 	header("Content-Type:application/json");
-	echo json_encode($motionDAO->deleteMotionById($id));
+	$result = array(
+		'id_on_board' => $_POST['id_on_board'],
+		'whiteboard_id' => $_POST['whiteboard_id']
+	);
+	echo json_encode($motionDAO->deleteMotionById($result['whiteboard_id'],$result['id_on_board']));
 	exit();
 });
 

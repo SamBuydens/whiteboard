@@ -4,6 +4,7 @@ module.exports = (function(){
 
 	function Motion($el,vidSrc) { console.log('[Motion] constructor');
 		this.$el = $el;
+		this.changed = false;
 		that = this;
 		if(vidSrc){
 			this.vidSrc = vidSrc;
@@ -25,13 +26,12 @@ module.exports = (function(){
 	
  	Motion.prototype.playSelectedFile = function(file) { console.log('[Motion] playSelectedFile');
 		var vid = this.$el.find('#'+this.elementId+' > .motion > video');
-        var type = file.type;
-        if(URL){
+        //var type = file.type;
+        if(URL){ console.log('URL BESTAAD');
         	var fileURL = URL.createObjectURL(file);
         	vid.attr('src', fileURL);
         	vid.autoPlay = true;
         }
-
         var reader = new FileReader();
 		reader.onload = function(file){ console.log('loaded');
 			that.confirm(file.target.result);
@@ -43,17 +43,20 @@ module.exports = (function(){
 		this.$el = $el;
 		this.elementId = elementId;	
 		this.$el.find("#"+elementId).append(new MotionEdit(this.vidSrc, elementId));
-		this.videoInput = this.$el.find('#'+elementId+'>form >.motion-edit');
+		this.videoInput = this.$el.find('#'+elementId+' >.motion-edit');
 		this.videoInput.change(function(){
 			var file = this.files[0];
 			that.playSelectedFile(file);
+			that.changed = true;
 		});
 	};
 
 	Motion.prototype.confirm = function(video){ console.log('[Motion] confirm');
-		this.vidSrc = this.$el.find("#"+this.elementId+" .motion-edit").val();
-		bean.fire(this, "video-changed",  video);
-		console.log(video);
+		if(this.changed === true){ console.log(this.changed);
+			this.vidSrc = this.$el.find("#"+this.elementId+" .motion-edit").val();
+			bean.fire(this, "video-changed",  video);
+			this.changed = false;
+		}
 		this.endEdit();
 	};
 

@@ -4,14 +4,12 @@
 	var Overview = require('./classes/Overview');
 	this.user = [];
 
-
 	function init() {
 		this.overview = new Overview($('#container'), this.user);
 		this.profile = new Profile($('#profile'));		
 		bean.on(this.profile , 'refresh', windowRefresh.bind(this));
 		bean.on(this.overview, 'leak-boardData', storeBoardInfo.bind(this));
 	}
-
 
 	function storeBoardInfo(boardInfo){ console.log('[Script] storeBoardInfo');
 		this.boardInfo = boardInfo;

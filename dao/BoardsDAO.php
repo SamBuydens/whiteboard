@@ -21,7 +21,6 @@ class BoardsDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-
     public function getMyBoards($creator){
         $sql = "SELECT * FROM `wb_whiteboard` WHERE creator =:creator";
         $stmt = $this->pdo->prepare($sql);
@@ -53,7 +52,6 @@ class BoardsDAO
         }
         return array();
     }
-
 
     public function deleteBoardById($id){
     $sql = "DELETE FROM wb_whiteboard WHERE id = :id";

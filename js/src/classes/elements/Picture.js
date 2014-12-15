@@ -3,6 +3,7 @@ module.exports = (function(){
 	var that;
 	function Picture(imgSrc) { console.log('[Picture] constructor');
 		that = this;
+		this.changed = false;
 		this.imgSrc = imgSrc;
 		if(!this.imgSrc){
 			this.imgSrc = "";
@@ -37,6 +38,7 @@ module.exports = (function(){
 		this.imgInputs.change(function(){
 			var file = this.files[0];
 			that.createThumb(file);
+			that.changed = true;
 		});
 	};
 
@@ -52,7 +54,10 @@ module.exports = (function(){
 
 	Picture.prototype.confirm = function(file){ console.log('[Picture] confirm');
 		this.imgSrc = this.$el.find("#"+this.elementId+" .input-picture").val();
-		bean.fire(this, "image-changed", file);
+		if(this.changed === true){
+			bean.fire(this, "image-changed", file);
+			that.changed = false;
+		}
 		this.endEdit();
 	};
 
