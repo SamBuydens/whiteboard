@@ -64,7 +64,7 @@ module.exports = (function(){
 		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "motion":
-		    	this.element = new Motion(this.content, this.elementId);
+		    	this.element = new Motion(this.$el,this.content, this.elementId);
 		    	if(this.content){
 		    		this.$el.find("#"+this.elementId).append(this.element.createMotion());
 		    		bean.on(this.element, "video-changed", this.videoChangedHandler.bind(this));

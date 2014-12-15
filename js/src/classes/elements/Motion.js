@@ -2,7 +2,7 @@ module.exports = (function(){
 	var MotionEdit = require('./MotionEdit');
 	var that;
 
-	function Motion($el,xPos,yPos,vidSrc) { console.log('[Motion] constructor');
+	function Motion($el,vidSrc) { console.log('[Motion] constructor');
 		this.$el = $el;
 		that = this;
 		if(vidSrc){
@@ -15,7 +15,7 @@ module.exports = (function(){
 		var template = Handlebars.compile(entryText);
 		var context = {};
 		if(this.vidSrc){
-			context.vidSrc = this.vidSrc;
+			context.vidSrc = 'motion/'+this.vidSrc+'.mp4';
 		}else{
 			context.vidSrc = "";
 		}
