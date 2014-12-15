@@ -65,20 +65,41 @@ module.exports = (function(){
 		    	}
 		        break;
 			case "motion":
-		    	this.element = new Motion(this.$el.find("#"+this.elementId));
-		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
+
+		    	this.element = new Motion(this.$el,this.content, this.elementId);
+		    	if(this.content){
+		    		this.$el.find("#"+this.elementId).append(this.element.createMotion());
+		    		bean.on(this.element, "video-changed", this.videoChangedHandler.bind(this));
+		    	} else{
+		    		this.$el.find("#"+this.elementId).append(this.element.createMotion());
+		    		this.element.edit(this.$el, this.elementId);
+		    		bean.on(this.element, "video-changed", this.videoChangedHandler.bind(this));
+		    		this.editMenu.toggleVisible();
+		    	}
+		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 		}
 	};
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
-			this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
-			console.log(this.$el.find("#"+this.elementId));
-			this.mouseDown = false;
+		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
+		this.mouseDown = false;
+	};
+
+	Element.prototype.videoChangedHandler = function(event){ console.log('[Element] videoChangedHandler');
+		var actionEvent = {};
+		actionEvent.content = event;
+		actionEvent.elementId = this.elementId;
+		actionEvent.elementType = this.elementType;
+		bean.fire(this, "video-changed", actionEvent);
 	};
 
 	Element.prototype.imageChangedHandler = function(event){ console.log('[Element] imageChangedHandler');
-		bean.fire(this, "image-changed", event);
+		var actionEvent = {};
+		actionEvent.content = event;
+		actionEvent.elementId = this.elementId;
+		actionEvent.elementType = this.elementType;
+		bean.fire(this, "image-changed", actionEvent);
 	};
 
 	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');

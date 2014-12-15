@@ -1,11 +1,12 @@
 module.exports = (function(){
 	var MotionEdit = require('./MotionEdit');
+	var that;
 
-
-	function Motion($el,xPos,yPos,vidSrc) { console.log('[Motion] constructor');
+	function Motion($el,vidSrc) { console.log('[Motion] constructor');
 		this.$el = $el;
+		that = this;
 		if(vidSrc){
-		this.vidSrc = vidSrc;
+			this.vidSrc = vidSrc;
 		}
 	}
 
@@ -13,35 +14,52 @@ module.exports = (function(){
 		var entryText = $('#motion-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {};
-
 		if(this.vidSrc){
-			context.vidSrc = this.vidSrc;
+			context.vidSrc = 'motion/'+this.vidSrc+'.mp4';
 		}else{
 			context.vidSrc = "";
 		}
-
 		var html = template(context);
-		$('#id="whiteboard"').append($(html));
-		
+		return ($(html));
 	};
 	
-	Motion.prototype.edit = function($el,elementId){  console.log('[Motion] edit');
+ 	Motion.prototype.playSelectedFile = function(file) { console.log('[Motion] playSelectedFile');
+		var vid = this.$el.find('#'+this.elementId+' > .motion > video');
+        var type = file.type;
+        if(URL){
+        	var fileURL = URL.createObjectURL(file);
+        	vid.attr('src', fileURL);
+        	vid.autoPlay = true;
+        }
 
+        var reader = new FileReader();
+		reader.onload = function(file){ console.log('loaded');
+			that.confirm(file.target.result);
+		};
+		reader.readAsDataURL(file);
+	};
+
+	Motion.prototype.edit = function($el,elementId){  console.log('[Motion] edit');
 		this.$el = $el;
 		this.elementId = elementId;	
 		this.$el.find("#"+elementId).append(new MotionEdit(this.vidSrc, elementId));
-
+		this.videoInput = this.$el.find('#'+elementId+'>form >.motion-edit');
+		this.videoInput.change(function(){
+			var file = this.files[0];
+			that.playSelectedFile(file);
+		});
 	};
 
-	Motion.prototype.confirm = function(){ console.log('[Motion] confirm');
+	Motion.prototype.confirm = function(video){ console.log('[Motion] confirm');
 		this.vidSrc = this.$el.find("#"+this.elementId+" .motion-edit").val();
+		bean.fire(this, "video-changed",  video);
+		console.log(video);
 		this.endEdit();
 	};
 
 	Motion.prototype.endEdit = function(){ console.log('[Motion] endEdit');
 		this.$el.find("#"+this.elementId+" > .motion-edit").remove();
 	};
-
 
 	return Motion;
 

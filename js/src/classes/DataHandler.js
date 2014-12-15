@@ -3,7 +3,6 @@ module.exports = (function(){
 	function DataHandler() { console.log('[DataHandler] constructor');
 		this.url = "http://localhost/whiteboard_2/api/index.php/";
 		that = this;
-		this.boardElements = [];
 		this.boardList = [];
 	}
 
@@ -13,8 +12,6 @@ module.exports = (function(){
 	  				url: this.url+'boards/'+boardId,
 	  				data: {content: 'content'},
 	  				success: function(data){
-	  					that.boardElements.push(data);
-	  					console.log([data]);
 	  					bean.fire(that, "board-info", [data]);
 	  				}
 				});
@@ -26,15 +23,9 @@ module.exports = (function(){
 	  				url: this.url+type+'/'+String(whiteboardId),
 	  				data: {content: 'content'},
 	  				success: function(data){
-	  					that.boardElements.push(data);
-	  					console.log([data]);
 	  					bean.fire(that, "data-success", [data]);
 	  				}
 				});
-	};
-
-	DataHandler.prototype.getBoardElements = function(){ console.log('[DataHandler] getBoardElements');
-		return this.boardElements;
 	};
 
 	DataHandler.prototype.removeBoardElement = function(elementType,id){ console.log('[DataHandler] removeBoardElement');
@@ -43,7 +34,7 @@ module.exports = (function(){
 		    	this.removeElementById('postits',id);
 		        break;
 		    case "static":
-		    	//this.removeElementById('static',id);
+		    	this.removeElementById('statics',id);
 		        break;
 		    case "motion":
 		    	this.removeElementById('motion',id);
@@ -62,22 +53,21 @@ module.exports = (function(){
 		});
 	};
 
-
 	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){ console.log('[DataHandler] newBoardElement');
 		switch(elementType) {
 		    case "post-it":
 		    	this.newElement('postits',id_on_board, position, whiteboardId);
 		        break;
 		    case "static":
-		    	//this.newElement('static',id_on_board, position, whiteboardId);
+		    	this.newElement('statics',id_on_board, position, whiteboardId);
 		        break;
-		    case "motion":
-		    	this.newElement('motion',whiteboardId);
+		    case "motion": console.log("type : "+elementType);
+		    	this.newElement('motion',id_on_board, position, whiteboardId);
 		        break;
 		}
 	};
 
-	DataHandler.prototype.newElement = function(elementType,id_on_board,position,whiteboardId){
+	DataHandler.prototype.newElement = function(elementType,id_on_board,position,whiteboardId){ console.log("NEWELEMENT");
 		$.ajax({
 	  		type: "POST",
 	  		url: this.url+elementType+'/add',
@@ -98,10 +88,10 @@ module.exports = (function(){
 		    	this.newPosition('postits',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		    case "static":
-		    	//this.newPosition('static',whiteboardId);
+		    	this.newPosition('statics',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		    case "motion":
-		    	this.newPosition('motion',whiteboardId);
+		    	this.newPosition('motion',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		}
 	};
@@ -121,10 +111,24 @@ module.exports = (function(){
 		});
 	};
 
-	DataHandler.prototype.editContent = function(elementType,id_on_board,content,whiteboardId){
+	DataHandler.prototype.editContent = function(elementType,id_on_board,content,whiteboardId){ console.log('[DataHandler] editContent');
+		switch(elementType) {
+		    case "post-it":
+		    	this.newContent('postits',id_on_board,content,whiteboardId);
+		        break;
+		    case "static":
+		    	this.newContent('statics',id_on_board,content,whiteboardId);
+		        break;
+		    case "motion":
+		    	this.newContent('motion',id_on_board,content,whiteboardId);
+		        break;
+		}
+	};
+
+	DataHandler.prototype.newContent = function(elementType,id_on_board,content,whiteboardId){
 		$.ajax({
 	  		type: "POST",
-	  		url: this.url+'postits/change/content',
+	  		url: this.url+elementType+'/change/content',
 	  		data: {whiteboard_id: whiteboardId,id_on_board: id_on_board, content: content},
 	  		success: function(data) {
 	  			console.log('success:', data);

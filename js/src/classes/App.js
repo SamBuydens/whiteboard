@@ -1,4 +1,5 @@
 module.exports = (function(){
+
 	var Whiteboard = require('./Whiteboard');
 	var ElementPicker = require('./ElementPicker');
 	var Element = require('./Element');
@@ -11,7 +12,7 @@ module.exports = (function(){
 		this.userId = userId;
 		this.admin = Boolean(boardInfo.creator === this.userId);
 		this.boardInfo = boardInfo;
-		this.types = ['postits'];
+		this.types = ['postits', 'statics', 'motion'];
 		this.i = 0;
 		this.elementList = [];
 
@@ -48,6 +49,7 @@ module.exports = (function(){
 		this.newElement(event, element.elementId);
 		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+		bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -57,17 +59,14 @@ module.exports = (function(){
 	};
 
 	App.prototype.addToElementList = function(event){ console.log('[App] addToElementList');
-		this.elementList.push(this.dataHandler.getBoardElements());
-		this.i++;
-		if(this.i === this.types.length){
-			this.addToBoard();
-		}
+		this.addToBoard(event);
 	};
 
-	App.prototype.addToBoard = function(){ console.log('[App] addToBoard'); 
 
-		var list = this.elementList[0][0];
+	App.prototype.addToBoard = function(event){ console.log('[App] addToBoard'); 
+		var list = event;
 		for(var elementItem in list) {
+			console.log(list[elementItem]);
   			var type = list[elementItem].el_type;
   			var position = {};
   			position.yPos = Number(list[elementItem].posy);
@@ -80,11 +79,16 @@ module.exports = (function(){
   			bean.on(element, "edit-clicked", this.editHandler.bind(this));
   			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
   			bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+  			bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
 		}
 	};
 
+	App.prototype.videoChangedHandler = function(event){ console.log('[App] videoChangedHandler');
+		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
+	};
+
 	App.prototype.imageChangedHandler = function(event){ console.log('[App] imageChangedHandler');
-		//this.dataHandler.
+		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
 	};
 
 	App.prototype.editHandler = function(event){ console.log('[App] editHandler');

@@ -21,7 +21,6 @@
 		$("#container").html("");
 		console.log(this.boardInfo);
 		console.log(user);
-
 		if(typeof this.boardInfo !== "undefined"){
 			this.app = new App($('#container'), this.boardInfo , user);
 		}

@@ -4,7 +4,7 @@ module.exports = (function(){
 	function Picture(imgSrc) { console.log('[Picture] constructor');
 		that = this;
 		this.imgSrc = imgSrc;
-		if(this.imgSrc){
+		if(!this.imgSrc){
 			this.imgSrc = "";
 		}
 		if (
@@ -22,7 +22,7 @@ module.exports = (function(){
 		var template = Handlebars.compile(entryText);
 		var context = {};
 		if(this.imgSrc){
-			context.imgSrc = this.imgSrc;
+			context.imgSrc = 'statics/'+this.imgSrc+".png";
 			var html = template(context); 
 			return($(html));
 		}
@@ -48,7 +48,6 @@ module.exports = (function(){
 				that.confirm(file.target.result);
 			};
 			reader.readAsDataURL(file);
-
 	};
 
 	Picture.prototype.confirm = function(file){ console.log('[Picture] confirm');
