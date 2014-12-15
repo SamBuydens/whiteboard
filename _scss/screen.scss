@@ -11,7 +11,7 @@ body{
 #whiteboard {
     width: 100vw;
     height: 100vh;
-    background-color: #CBE6F4;
+    background-color: #FFFFFF;
     position: relative;
     z-index: 0;
     overflow: hidden;
@@ -20,6 +20,16 @@ body{
 #element-picker {
 	position: absolute;
 	z-index: 10;
+	background-color: #22788D;
+	color: #ffffff;
+	font-family: Verdana, sans-serif;
+	font-size: 0.9em;
+}
+
+#element-picker li{
+	display: inline;
+	padding: 5px;
+	cursor: pointer;
 }
 
 #element-picker span {

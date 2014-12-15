@@ -64,7 +64,7 @@ module.exports = (function(){
 	};
 
 	Profile.prototype.bindUser = function(event){ console.log('[Profile] bindUser');
-		this.user= [event];
+		this.user = [event];
 		if(this.user[0]){
 			$('input').val("");
 			$("#register-button").addClass('hidden');

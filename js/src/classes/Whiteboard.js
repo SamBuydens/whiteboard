@@ -16,9 +16,7 @@ module.exports = (function(){
 	};
 
 	Whiteboard.prototype.bindHandler = function(){ console.log('[Whiteboard] bindHandler');
-		if(this.admin === true){
-			this.board.on('click', this.clickHandler.bind(this));
-		}
+		this.board.on('click', this.clickHandler.bind(this));
 	};
 
 	Whiteboard.prototype.clickHandler = function(event){ console.log('[Whiteboard] clickHandler');

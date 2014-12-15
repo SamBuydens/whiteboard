@@ -1,6 +1,5 @@
 module.exports = (function(){
 
-
 	function ElementPicker($el) { console.log('[ElementPicker] constructor');
 		this.$el = $el;
 		var entryText = $('#element-picker-template').text();

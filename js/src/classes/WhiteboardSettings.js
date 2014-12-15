@@ -29,22 +29,23 @@ module.exports = (function(){
 	}
 
 	WhiteboardSettings.prototype.addToPartList = function(results){ console.log('[WhiteboardSettings] addToPartList');
-	  		console.log(results);
+	  		this.$el.find("#result-list").empty();
 			var result = [];
+			var context = {};
+			context.names = [];
 			for(i = 0; i < results.length; i++){
-				result.push(results[i].wb_username);
+				context.names.push({name:results[i].wb_username});
 			}
-
 			var entryTxt = $('#result-template').text();
-			var temp = Handlebars.compile(entryTxt);
-	 		var context = result;
-				Handlebars.registerHelper('result', function() {	
-				 var name = Handlebars.escapeExpression(result.wb_username)
+			var template = Handlebars.compile(entryTxt);
+			console.log('----------------------');
+			Handlebars.registerHelper('users', function() {	
+				 var name = Handlebars.escapeExpression(this.name)
 				  return new Handlebars.SafeString(
 				    "<li id=''>"+name+"<button class='btn addResult'>X</button></li>"
 				  );
 				});
-			var html = temp(context);
+			var html = template(context);
 			this.$el.find("#result-list").append($(html));
 
 	}

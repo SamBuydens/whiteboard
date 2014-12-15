@@ -1,7 +1,7 @@
 module.exports = (function(){
 	var that;
 	function DataHandler() { console.log('[DataHandler] constructor');
-		this.url = "http://localhost/whiteboard_2/api/index.php/";
+		this.url = "http://localhost:8888/cp3/whiteboard/whiteboard/api/index.php/";
 		that = this;
 		this.boardList = [];
 	}
