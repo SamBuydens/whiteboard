@@ -23,7 +23,6 @@ class PostitsDAO
         return array();
     }
 
-    
     public function deletePotitById($id){
         $sql = "DELETE
                 FROM wb_postit

@@ -87,6 +87,7 @@ $app->get("/boards/?", function() use ($boardsDAO){
 	exit();
 });
 
+
 $app->get("/boards/delete/:id/?", function($id) use ($boardsDAO){
 	header("Content-Type:application/json");
 	echo json_encode($boardsDAO->deleteBoardById($id));
@@ -99,6 +100,11 @@ $app->post("/boards/add/:title/:creatorId/?", function($title, $creatorId) use (
 	exit();
 });
 
+$app->get("/boards/:userid/?", function($id) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->getMyBoards($id));
+	exit();
+});
 
 //USERS
 $app->post("/users/login/:email/:password/?", function($email, $password) use ($usersDAO){

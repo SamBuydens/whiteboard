@@ -15,7 +15,7 @@ module.exports = (function(){
 		//context.username = this.username;
 		//context.email = this.email;
 		var html = template(context);
-		$('#container').append($(html));
+		$('#profile').append($(html));
 
 		//REGISTER-TEMPLATE
 		var entryText = $('#register-template').text();
@@ -24,12 +24,11 @@ module.exports = (function(){
 		//context.username = this.username;
 		//context.email = this.email;
 		var html = template(context);
-		$('#container').append($(html));
+		$('#profile').append($(html));
 
 		this.$el.find("#register-button").on('click', this.register.bind(this));
 		$('.register').on("click", this.addUser.bind(this));
 		this.$el.find(".login").on('click', this.login.bind(this));
-		this.$el.find(".logout").on('click', this.logout.bind(this));
 		bean.on(this.userHandler, "user-found", this.bindUser.bind(this));
 	}
 
@@ -59,6 +58,9 @@ module.exports = (function(){
 		this.user = [];
 		this.toggleVisible();
 		$("#register-button").removeClass('hidden');
+		$("#logout").remove();
+		//huidige situate refreshen.
+		bean.fire(this, "refresh", this.user);
 	};
 
 	Profile.prototype.bindUser = function(event){ console.log('[Profile] bindUser');
@@ -68,12 +70,21 @@ module.exports = (function(){
 			$("#register-button").addClass('hidden');
 			$("#register").addClass('hidden');
 			this.toggleVisible();
+			bean.fire(this, "refresh", this.user);
+
+			//LOGGED-IN-TEMPLATE
+			var entryText = $('#logged-in-template').text();
+			var template = Handlebars.compile(entryText);
+			var context = {};
+			context.username = this.user[0].wb_username;
+			var html = template(context);
+			$('#profile').append($(html));
+			$(".logout").on('click', this.logout.bind(this));
 		}
 	}
 
 	Profile.prototype.toggleVisible = function(){ console.log('[Profile] toggleVisible');
 		$("#login").toggleClass('hidden');
-		$("#logout").toggleClass('hidden');
 	};
 
 	return Profile;

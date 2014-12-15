@@ -6,9 +6,9 @@ module.exports = (function(){
 	var Picture = require('./elements/Picture');
 	var Motion = require('./elements/Motion');
 
-	function Element($el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
+	function Element(admin, $el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
 		this.$el = $el;
-		console.log("ocntenen ==== "+content);
+		this.admin = admin;
 		this.content = content;
 		this.elementType = elementType;
 		this.elementId = elementId;
@@ -32,7 +32,10 @@ module.exports = (function(){
 		position.left = this.position.xPos;
 		position.zIndex = 0;
 		this.$el.find("#"+this.elementId).css(position);
-		this.createEditMenu();
+		if(this.admin){
+			this.createEditMenu();
+			this.bindHandler(this.$el.find("#"+this.elementId));
+		}
 		this.createElement();
 	};
 
@@ -48,7 +51,6 @@ module.exports = (function(){
 		    		this.editMenu.toggleVisible();
 		    	}
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
-		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "static":
 		    	this.element = new Picture(this.content, this.elementId);
@@ -61,20 +63,18 @@ module.exports = (function(){
 		    		bean.on(this.element, "image-changed", this.imageChangedHandler.bind(this));
 		    		this.editMenu.toggleVisible();
 		    	}
-		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "motion":
 		    	this.element = new Motion(this.$el.find("#"+this.elementId));
 		    	this.$el.find("#"+this.elementId).append(this.element.createMotion);
-		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 		}
 	};
 
 	Element.prototype.bindHandler = function($el){ console.log('[Element] bindHandler');
-		this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
-		console.log(this.$el.find("#"+this.elementId));
-		this.mouseDown = false;
+			this.$el.find("#"+this.elementId).on('mousedown', this.mousedownHandler.bind(this));
+			console.log(this.$el.find("#"+this.elementId));
+			this.mouseDown = false;
 	};
 
 	Element.prototype.imageChangedHandler = function(event){ console.log('[Element] imageChangedHandler');
