@@ -36,6 +36,7 @@ module.exports = (function(){
 		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
 		bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+		bean.on(element, "remove-clicked", this.removeHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -81,7 +82,7 @@ module.exports = (function(){
 	};
 
 	App.prototype.removeHandler = function(event){ console.log('[App] removeHandler'); 
-		this.dataHandler.removeBoardElement(event.elementType, event.id);
+		this.dataHandler.removeBoardElement(event.elementType, event.elementId, this.whiteboardId);
 	};
 	
 	App.prototype.newElement = function(type,idOnBoard){ console.log('[App] newElementHandler'); 

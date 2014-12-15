@@ -6,9 +6,8 @@ module.exports = (function(){
 	var Picture = require('./elements/Picture');
 	var Motion = require('./elements/Motion');
 
-	function Element($el,elementType,position,elementId,content,id) { console.log('[Element] constructor');
+	function Element($el,elementType,position,elementId,content) { console.log('[Element] constructor');
 		this.$el = $el;
-		console.log("ocntenen ==== "+content);
 		this.content = content;
 		this.elementType = elementType;
 		this.elementId = elementId;
@@ -18,9 +17,6 @@ module.exports = (function(){
 			this.elementId = this.setElementId();
 		}
 		this.position = position;
-		if(id){
-			this.id = id;
-		}
 		this.createElementHolder();
 	}
 
@@ -128,13 +124,14 @@ module.exports = (function(){
 
 	Element.prototype.actionClickedHandler = function(event){ console.log('[Element] actionClickedHandler');
 		switch(event.targetId) {
-		    case "remove":
+		    case "remove": console.log('remove');
 		    	this.editMenu.toggleVisible();
 		    	this.$el.find('#'+event.elementId).remove();
 		    	var actionEvent = {};
-		    	actionEvent.id = this.id;
+		    	actionEvent.elementId = this.elementId;
 		    	actionEvent.elementType = this.elementType;
 		    	bean.fire(this, "remove-clicked", actionEvent);
+		    	console.log(actionEvent);
 		        break;
 		    case "edit":
 		    	this.element.confirm();

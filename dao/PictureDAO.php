@@ -27,14 +27,15 @@ class PictureDAO
         return array();
     }    
     
-    public function deletePictureById($id){
+    public function deletePictureById($whiteboard_id ,$id_on_board){
         $sql = "DELETE
                 FROM wb_static
-                WHERE id = :id";
+                WHERE whiteboard_id=:whiteboard_id AND id_on_board=:id_on_board";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":id",$id);
+        $stmt->bindValue(":whiteboard_id",$whiteboard_id);
+        $stmt->bindValue(":id_on_board",$id_on_board);
         if($stmt->execute()){
-            return $id;
+            return $id_on_board;
         }
         return false;
     }
