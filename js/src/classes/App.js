@@ -8,7 +8,7 @@ module.exports = (function(){
 	function App($el) { console.log('[App] constructor');
 		this.$el = $el;
 		this.whiteboardId = 1;
-		this.types = ['postits', 'statics'];
+		this.types = ['postits', 'statics', 'motion'];
 		this.i = 0;
 		this.elementList = [];
 		this.position = {};
@@ -35,6 +35,7 @@ module.exports = (function(){
 		this.newElement(event, element.elementId);
 		bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
 		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+		bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -63,7 +64,12 @@ module.exports = (function(){
   			bean.on(element, "edit-clicked", this.editHandler.bind(this));
   			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
   			bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+  			bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
 		}
+	};
+
+	App.prototype.videoChangedHandler = function(event){ console.log('[App] videoChangedHandler');
+		this.dataHandler.editContent(event.elementType,event.elementId,event.content,this.whiteboardId);
 	};
 
 	App.prototype.imageChangedHandler = function(event){ console.log('[App] imageChangedHandler');

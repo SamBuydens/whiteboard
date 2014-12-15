@@ -17,7 +17,6 @@ module.exports = (function(){
 				});
 	};
 
-
 	DataHandler.prototype.removeBoardElement = function(elementType,id){ console.log('[DataHandler] removeBoardElement');
 		switch(elementType) {
 		    case "post-it":
@@ -43,7 +42,6 @@ module.exports = (function(){
 		});
 	};
 
-
 	DataHandler.prototype.newBoardElement = function(elementType,id_on_board,position,whiteboardId){ console.log('[DataHandler] newBoardElement');
 		switch(elementType) {
 		    case "post-it":
@@ -52,13 +50,13 @@ module.exports = (function(){
 		    case "static":
 		    	this.newElement('statics',id_on_board, position, whiteboardId);
 		        break;
-		    case "motion":
-		    	this.newElement('motion',whiteboardId);
+		    case "motion": console.log("type : "+elementType);
+		    	this.newElement('motion',id_on_board, position, whiteboardId);
 		        break;
 		}
 	};
 
-	DataHandler.prototype.newElement = function(elementType,id_on_board,position,whiteboardId){
+	DataHandler.prototype.newElement = function(elementType,id_on_board,position,whiteboardId){ console.log("NEWELEMENT");
 		$.ajax({
 	  		type: "POST",
 	  		url: this.url+elementType+'/add',
@@ -82,7 +80,7 @@ module.exports = (function(){
 		    	this.newPosition('statics',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		    case "motion":
-		    	this.newPosition('motion',whiteboardId);
+		    	this.newPosition('motion',id_on_board, xpos, ypos,whiteboardId);
 		        break;
 		}
 	};
@@ -111,7 +109,7 @@ module.exports = (function(){
 		    	this.newContent('statics',id_on_board,content,whiteboardId);
 		        break;
 		    case "motion":
-		    	this.newPosition('motion',whiteboardId);
+		    	this.newContent('motion',id_on_board,content,whiteboardId);
 		        break;
 		}
 	};

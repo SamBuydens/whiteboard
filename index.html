@@ -96,6 +96,7 @@
 			<img class="image-preview"/>
 		</div>
 		<input type="file" class="input-picture" name="input-picture"/>
+
 	</script>
 
 	<!-- Motion Template -->
@@ -107,7 +108,10 @@
 
 	<!-- Motion Edit Template -->
 	<script id="motion-edit-template" type="text/template">
-				<input type="file" class="motion-edit" name="motion-edit"/>
+		<form method="post" enctype='multipart/form-data' name='videoupload'>
+			<input type="file" class="motion-edit" name="motion-edit"/>
+			<input type='submit' value='submit' name='submit' />
+		</form>
 	</script>
 
 	<!-- Login Template -->
