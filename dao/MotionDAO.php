@@ -35,7 +35,7 @@ class MotionDAO
         $stmt->bindValue(':whiteboard_id',$whiteboard_id);
         $stmt->bindValue(':id_on_board',$id_on_board);
         if($stmt->execute()){
-            return $id;
+            return $id_on_board;
         }
         return false;
     }

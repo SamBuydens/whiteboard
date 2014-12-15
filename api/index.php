@@ -34,7 +34,7 @@ $app->post("/postits/delete/?", function() use ($app,$postitsDAO){
 		'id_on_board' => $_POST['id_on_board'],
 		'whiteboard_id' => $_POST['whiteboard_id']
 	);
-	echo json_encode($postitsDAO->deletePictureById($result['whiteboard_id'],$result['id_on_board']));
+	echo json_encode($postitsDAO->deletePostitById($result['whiteboard_id'],$result['id_on_board']));
 	exit();
 });
 
@@ -194,6 +194,7 @@ $app->get("/boards/?", function() use ($boardsDAO){
 	exit();
 });
 
+
 $app->get("/boards/delete/:id/?", function($id) use ($boardsDAO){
 	header("Content-Type:application/json");
 	echo json_encode($boardsDAO->deleteBoardById($id));
@@ -203,6 +204,12 @@ $app->get("/boards/delete/:id/?", function($id) use ($boardsDAO){
 $app->post("/boards/add/:title/:creatorId/?", function($title, $creatorId) use ($boardsDAO){
 	header("Content-Type:application/json");
 	echo json_encode($boardsDAO->addNewBoard($title, $creatorId));
+	exit();
+});
+
+$app->get("/boards/:userid/?", function($id) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->getMyBoards($id));
 	exit();
 });
 

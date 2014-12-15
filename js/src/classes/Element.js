@@ -28,7 +28,8 @@ module.exports = (function(){
 		position.left = this.position.xPos;
 		position.zIndex = 0;
 		this.$el.find("#"+this.elementId).css(position);
-		this.createEditMenu();
+			this.createEditMenu();
+			this.bindHandler(this.$el.find("#"+this.elementId));
 		this.createElement();
 	};
 
@@ -44,7 +45,6 @@ module.exports = (function(){
 		    		this.editMenu.toggleVisible();
 		    	}
 		    	this.$el.find("#"+this.elementId).append(this.element.createPostit);
-		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "static":
 		    	this.element = new Picture(this.content, this.elementId);
@@ -57,9 +57,9 @@ module.exports = (function(){
 		    		bean.on(this.element, "image-changed", this.imageChangedHandler.bind(this));
 		    		this.editMenu.toggleVisible();
 		    	}
-		    	this.bindHandler(this.$el.find("#"+this.elementId));
 		        break;
 			case "motion":
+
 		    	this.element = new Motion(this.$el,this.content, this.elementId);
 		    	if(this.content){
 		    		this.$el.find("#"+this.elementId).append(this.element.createMotion());
@@ -86,6 +86,7 @@ module.exports = (function(){
 		actionEvent.elementId = this.elementId;
 		actionEvent.elementType = this.elementType;
 		bean.fire(this, "video-changed", actionEvent);
+		this.editMenu.toggleVisible();
 	};
 
 	Element.prototype.imageChangedHandler = function(event){ console.log('[Element] imageChangedHandler');
@@ -94,17 +95,18 @@ module.exports = (function(){
 		actionEvent.elementId = this.elementId;
 		actionEvent.elementType = this.elementType;
 		bean.fire(this, "image-changed", actionEvent);
+		this.editMenu.toggleVisible();
 	};
 
-	Element.prototype.mousedownHandler = function(e){ console.log('[Element] mousedownHandler');
+	Element.prototype.mousedownHandler = function(event){ console.log('[Element] mousedownHandler');
 		if(event.target.id === this.elementId){
         	this.mouseDown = true;
-       		this.currentLeft = $(e.target).css('left');
-       		this.currentTop = $(e.target).css('top');
+       		this.currentLeft = $(event.target).css('left');
+       		this.currentTop = $(event.target).css('top');
         	this._mouseMoveHandler = this.mouseMoveHandler.bind(this);
         	this._mouseUpHandler = this.mouseUpHandler.bind(this);
-        	this.offsetX = e.offsetX;
-        	this.offsetY = e.offsetY;
+        	this.offsetX = event.offsetX;
+        	this.offsetY = event.offsetY;
         	++zIndexCounter;
         	this.$el.find("#"+this.elementId).css('zIndex', zIndexCounter);
         	document.body.addEventListener('mousemove', this._mouseMoveHandler);
@@ -136,11 +138,13 @@ module.exports = (function(){
 		    case "edit":
 		    	this.element.confirm();
 		    	this.editMenu.toggleVisible();
-		    	actionEvent = {};
-		    	actionEvent.elementType = this.elementType;
-		    	actionEvent.elementId = this.elementId;
-		    	actionEvent.content = this.element.txt;
-		    	bean.fire(this, "edit-clicked", actionEvent);
+		    	if(this.element.changed === true){
+		    		actionEvent = {};
+		    		actionEvent.elementType = this.elementType;
+		    		actionEvent.elementId = this.elementId;
+		    		actionEvent.content = this.element.txt;
+		    		bean.fire(this, "edit-clicked", actionEvent);
+		    	}
 		        break;
 		    case "cancel":
 		    	this.element.endEdit();
@@ -176,6 +180,7 @@ module.exports = (function(){
     	var holders = this.$el.find(".element-holder");
     	if(holders.length > 0){
     		var idHolder =[];
+    		var i = 0;
 			for(i = 0;i < holders.length; i++ ){
 				idHolder.push(holders[i].id);
 			}

@@ -5,23 +5,37 @@ module.exports = (function(){
 	var Element = require('./Element');
 	var DataHandler = require('./DataHandler');
 
-	function App($el) { console.log('[App] constructor');
+
+	function App($el, boardInfo, userId) { console.log('[App] constructor');
 		this.$el = $el;
-		this.whiteboardId = 1;
+		this.whiteboardId = boardInfo.id;
+		this.userId = userId;
+		this.admin = Boolean(boardInfo.creator === this.userId);
+		this.boardInfo = boardInfo;
 		this.types = ['postits', 'statics', 'motion'];
 		this.i = 0;
 		this.elementList = [];
+
 		this.position = {};
 		this.dataHandler = new DataHandler();
-		this.whiteboard = new Whiteboard(this.$el);
+		this.whiteboard = new Whiteboard(this.$el, this.boardInfo, this.admin);
 		this.elementPicker = new ElementPicker(this.$el);
 		//LUISTEREN
 		bean.on(this.dataHandler, "data-success", this.addToElementList.bind(this));
 		bean.on(this.whiteboard, "whiteboard-clicked", this.whiteboardClickedHandler.bind(this));
 		bean.on(this.elementPicker, "element-picker-clicked", this.elementPickerClickedHandler.bind(this));
+		this.$el.find('.close-button').on('click', this.closeProject.bind(this));
 		//UITVOEREN
 		this.buildBoard();
 	}
+
+
+	App.prototype.closeProject = function(event){ console.log('[WhiteboardSettings] closeProject');
+			$("#container").html("");
+			var Overview = require('./Overview');
+			new Overview($('#container'), this.userId);
+	};
+
 
 	App.prototype.whiteboardClickedHandler = function(event){ console.log('[App] whiteboardClickedHandler');
 		this.elementPicker.toggleVisible();
@@ -37,6 +51,7 @@ module.exports = (function(){
 		bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
 		bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
 		bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+		bean.on(element, "edit-clicked", this.editHandler.bind(this));
 	};
 
 	App.prototype.buildBoard = function(){ console.log('[App] buildBoard');
@@ -60,12 +75,14 @@ module.exports = (function(){
   			var elementId = list[elementItem].id_on_board;
   			var id = list[elementItem].id;
   			var content = list[elementItem].content;
-  			var element = new Element(this.$el,type,position,elementId,content,id);
-  			bean.on(element, "remove-clicked", this.removeHandler.bind(this));
-  			bean.on(element, "edit-clicked", this.editHandler.bind(this));
-  			bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
-  			bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
-  			bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+  			var element = new Element(this.$el,type,position,elementId,content, id);
+  			if(this.admin === true){
+  				bean.on(element, "remove-clicked", this.removeHandler.bind(this));
+  				bean.on(element, "edit-clicked", this.editHandler.bind(this));
+  				bean.on(element, "position-changed", this.positionChangedHandler.bind(this));
+  				bean.on(element, "image-changed", this.imageChangedHandler.bind(this));
+  				bean.on(element, "video-changed", this.videoChangedHandler.bind(this));
+  			}
 		}
 	};
 

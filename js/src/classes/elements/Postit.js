@@ -4,6 +4,7 @@ module.exports = (function(){
 
 	function Postit(txt) { console.log('[Postit] constructor');
 		this.txt = txt;
+		this.changed = true;
 		if(!this.txt){
 			this.txt = "Nieuwe Postit";
 		}

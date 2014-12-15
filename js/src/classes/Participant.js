@@ -9,7 +9,7 @@ module.exports = (function(){
 	 		var context = { participants: [{}]};
 				Handlebars.registerHelper('participant', function() {
 				  return new Handlebars.SafeString(
-				    "<li id=''>"+input.val()+"<button class='btn delete'>X</button></li>"
+				    "<li id=''>"+input.val()+"<button class='btn deletePart'>X</button></li>"
 				  );
 				});
 			var html = template(context);
@@ -20,14 +20,13 @@ module.exports = (function(){
 	}
 
 	Participant.prototype.bindDeletebutton = function(){ console.log('[Participant] bindDeletebutton');
-		this.deletebuton = document.querySelectorAll('.btn-delete');
+		this.deletebuton = document.querySelectorAll('.deletePart');
 		this.deletebuton[this.deletebuton.length-1].addEventListener('click', this.deleteClickHandler.bind(this));
 	};
 
 	Participant.prototype.deleteClickHandler = function(event){ console.log("[Participant] deleteClickHandler");
 		bean.fire(this, "delete", event.path[1]);
 	};
-
 	return Participant;
 
 })();

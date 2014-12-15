@@ -6,6 +6,17 @@ module.exports = (function(){
 		this.boardList = [];
 	}
 
+	DataHandler.prototype.getBoardInfo = function(boardId){ console.log('[DataHandler] getBoardInfo');
+		return $.ajax({
+	  				type: "GET",
+	  				url: this.url+'boards/'+boardId,
+	  				data: {content: 'content'},
+	  				success: function(data){
+	  					bean.fire(that, "board-info", [data]);
+	  				}
+				});
+	};
+
 	DataHandler.prototype.loadBoardElements = function(type,whiteboardId){ console.log('[DataHandler] loadBoardElements');
 		return $.ajax({
 	  				type: "GET",
@@ -132,7 +143,7 @@ module.exports = (function(){
 	DataHandler.prototype.getAllBoards = function(){ console.log('[DataHandler] getAllBoards');
 		 $.ajax({
 		  	type: "GET",
-		  	url: this.url+'/boards/',
+		  	url: this.url+'boards/',
 		  	data: {content: 'content'},
 		  	success: function(data){
 		  		this.boardElements.push(data);

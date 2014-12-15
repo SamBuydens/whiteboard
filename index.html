@@ -8,26 +8,53 @@
 </head>
 <body>
 
+	<div id="profile">
+		<button id="register-button">registreer</button>
+	</div>
 
 	<div id="container">
-		<button id="addProject">add new project!</button>
-		<button id="register-button">registreer</button>
+		//login om een project aan te maken melding!!
 
 	</div>
 
 	<!-- Settings Title Template -->
 		<script id="settings-template" type="text/template">
+		<section class="settings admin">
+			<div class="hide_section">
+				<p class="settings-title">Thema:</p>
+				<input type="text" class="title-input" value="{{title}}"/>
+				<p class="settings-contributor">Participants: </p>
+				<input type="email" class="participant-input" name='participant-input' placeholder="Give an email" />
+					<ul id="participant-list"></ul>
+				<span class="addParticipant btn">add</span>
+				<input type="email" class="tag-input" name='tag-input' placeholder="Give an tag" />
+				<p class="settings-tags">Tags: </p>
+				<ul id="tag-list"></ul>
+				<p>Gemaakt door: {{creator}}</p>
+				<p>op {{creation_date}}</p>
+				<span class="addTag btn">add</span>
+				<span class="hide-button btn">hide</span>
+				<span class="close-button btn">close</span>
+			</div>
+			<span class="show-button hidden btn">show settings!</span>
+		</section>
+		</script>
+
+		<!-- Info Title Template -->
+		<script id="info-template" type="text/template">
 		<section class="settings">
 			<div class="hide_section">
-				<p class="settings-title">Thema: </p>
-				<input type="text" class="title-input" value="Untitled"/>
+				<p class="settings-title">Thema: {{title}}</p>
 				<p class="settings-contributor">Participants: </p>
-				<input type="email" class="participant-input" name='participant-input' placeholder="Give an email and press enter to add" />
-					<ul id="participant-list"></ul>
-				<span class="add-button">add</span>
-				<span class="hide-button">hide</span>
+				<ul id="participant-list"></ul>
+				<p class="settings-tags">Tags: </p>
+				<ul id="tag-list"></ul>
+				<p>Gemaakt door: {{creator}}</p>
+				<p>op {{creation_date}}</p>
+				<span class="hide-button btn">hide</span>
+				<span class="close-button btn">close</span>
 			</div>
-			<span class="show-button hidden">show settings!</span>
+			<span class="show-button hidden btn">show settings!</span>
 		</section>
 		</script>
 
@@ -38,14 +65,29 @@
 			{{/each}}
 		</script>
 
-	<!-- OverviewTumb  Template -->
+	<!-- Tags Template -->
+		<script id="tags-template" type="text/template">
+			{{#each tags}}
+				{{tag}}
+			{{/each}}
+		</script>
+
+	<!-- OverviewBtns Template -->
+	<script id="overviewBtns-template" type="text/template">
+		<p class="addBoard btn admin">Nieuw project</p>
+		<p class="myBoards btn admin">Mijn whiteboards</p>
+		<p class="allBoards btn admin selected">Alle whiteboards</p>
+		<input type="search"/>
+	</script>
+
+	<!-- OverviewTumb Template -->
 	<script id="overviewThumb-template" type="text/template">
-		<section class="OverviewThumb" id="{{id}}">
+		<section class="overviewThumb" id="{{id}}">
 			<h2>{{title}}</h2>
-			<p>{{user_name}}</p>
+			<p>{{creator}}</p>
 			<p>{{creation_date}}</p>
 			<p class='btn view'>view</p>
-			<p class='btn remove'>remove</p>
+			<p class='btn remove hidden'>remove</p>
 		<section>
 	</script>
 
@@ -118,11 +160,15 @@
 				<input type="password" class="login_password" name="login_password" placeholder="passwoord" value=""/>
 				<p class="login btn">Login</p>
 			</section>
-			<section id="logout" class="hidden">
+	</script>
+
+	<!-- Logged-in-template-->
+		<script id="logged-in-template" type="text/template">
+			<section id="logout" class="">
 				<p class="username">{{username}}</p>
 				<p class="logout btn">Logout</p>
 			</section>
-	</script>
+		</script>
 
 	<!-- Register Template -->
 	<script id="register-template" type="text/template">

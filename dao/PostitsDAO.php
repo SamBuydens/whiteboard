@@ -36,7 +36,6 @@ class PostitsDAO
         return false;
     }
 
-
     public function addNewPostit($whiteboard_id ,$id_on_board, $posx, $posy){
         $sql = "INSERT INTO wb_postit(whiteboard_id,id_on_board, posx, posy)
                 VALUES (:whiteboard_id,:id_on_board, :posx, :posy)";

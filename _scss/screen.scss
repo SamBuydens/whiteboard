@@ -62,7 +62,7 @@ body{
 }
 
 .settings{
-	width: 120px;
+	width: 140px;
 	background-color: #fff;
 	padding: 10px;
 	text-align: left;
@@ -102,6 +102,7 @@ body{
 	right: 30px;	
 	position: absolute;	
 	top:0px;
+	z-index: 999;
 }
 
 #login, #logout{
@@ -113,10 +114,15 @@ body{
 }
 
 #register{
-	width: 100px;
+	width: 300px;
 	z-index: 999;
 	position: absolute;
-	right: 30px;	
+	right: 50%;
+	margin-right: -150px;
 	top: 110px;
-	
 }
+
+.selected{
+	background-color: green;
+}
+
