@@ -25,14 +25,16 @@
 				<input type="text" class="title-input" value="{{title}}"/>
 				<p class="settings-contributor">Participants: </p>
 				<input type="email" class="participant-input" name='participant-input' placeholder="Give an email" />
-					<ul id="participant-list"></ul>
+				<ul id="participant-list"></ul>
 				<span class="addParticipant btn">add</span>
-				<input type="email" class="tag-input" name='tag-input' placeholder="Give an tag" />
+				<ul id="result-list"></ul>
+
 				<p class="settings-tags">Tags: </p>
+				<input type="email" class="tag-input" name='tag-input' placeholder="Give an tag" />
 				<ul id="tag-list"></ul>
+				<span class="addTag btn">add</span>
 				<p>Gemaakt door: {{creator}}</p>
 				<p>op {{creation_date}}</p>
-				<span class="addTag btn">add</span>
 				<span class="hide-button btn">hide</span>
 				<span class="close-button btn">close</span>
 			</div>
@@ -58,6 +60,15 @@
 		</section>
 		</script>
 
+
+
+	<!-- Tags Template -->
+		<script id="result-template" type="text/template">
+			{{#each results}}
+				{{result}}
+			{{/each}}
+		</script>
+
 	<!-- Participant Template -->
 		<script id="participant-template" type="text/template">
 			{{#each participants}}
@@ -77,7 +88,8 @@
 		<p class="addBoard btn admin">Nieuw project</p>
 		<p class="myBoards btn admin">Mijn whiteboards</p>
 		<p class="allBoards btn admin selected">Alle whiteboards</p>
-		<input type="search"/>
+		<input type="search" id="search-input" name="search-input"/>
+		<input type="search" id="search-input2" name="search-input2" class=""/>
 	</script>
 
 	<!-- OverviewTumb Template -->

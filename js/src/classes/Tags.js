@@ -1,9 +1,11 @@
 module.exports = (function(){
+	var WhiteboardSettingsHandler = require('./WhiteboardSettingsHandler');
 
-	function Tags($el){ console.log('[Tags] constructor');
+	function Tags($el, boardId){ console.log('[Tags] constructor');
 		this.$el = $el;
 		var input = $el.find('.tag-input');
 		if(input.val()){
+
 			var entryText = $('#tags-template').text();
 			var template = Handlebars.compile(entryText);
 	 		var context = { tags: [{}]};
@@ -14,14 +16,15 @@ module.exports = (function(){
 				});
 			var html = template(context);
 			this.$el.find("#tag-list").append($(html));
-			this.bindDeletebutton();
+			this.bindHandler(input.val());
+			this.whiteboardSettingsHandler = new WhiteboardSettingsHandler();
+			this.whiteboardSettingsHandler.addTag(input.val(), boardId);
 			input.val("");
 		}
 	}
 
-	Tags.prototype.bindDeletebutton = function(){ console.log('[Tags] bindDeletebutton');
+	Tags.prototype.bindHandler = function(content){ console.log('[Tags] bindHandler');
 		this.deletebuton = document.querySelectorAll('.deleteTag');
-		console.log(this.deletebuton);
 		this.deletebuton[this.deletebuton.length-1].addEventListener('click', this.deleteClickHandler.bind(this));
 	};
 

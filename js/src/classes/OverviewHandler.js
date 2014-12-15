@@ -49,6 +49,32 @@ module.exports = (function(){
 		});
 	}
 
+
+	OverviewHandler.prototype.searchBoard = function(param){
+		return $.ajax({
+	  		type: "GET",
+	  		url: this.url+'search/'+param,
+		  	data: {content: 'content'},
+	  		success: function(data) {
+	  			console.log("search-whiteboard "+[data]);
+	  			bean.fire(this, "data-success", [data]);
+	  		}.bind(this)
+		});
+	}
+
+
+	OverviewHandler.prototype.searchMyBoard = function(param, creator){
+		return $.ajax({
+	  		type: "GET",
+	  		url: this.url+'mySearch/'+param+'/'+creator,
+		  	data: {content: 'content'},
+	  		success: function(data) {
+	  			console.log("search-whiteboard "+[data]);
+	  			bean.fire(this, "data-success", [data]);
+	  		}.bind(this)
+		});
+	}
+
 	return OverviewHandler;
 
 })();

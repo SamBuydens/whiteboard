@@ -1,11 +1,13 @@
 module.exports = (function(){
 	var Participant = require ('./Participant');
-	var Tag = require('./Tags');
+	var Tags = require('./Tags');
+	var WhiteboardSettingsHandler = require('./WhiteboardSettingsHandler');
 
 	function WhiteboardSettings($el, admin, boardInfo) { console.log('[WhiteboardSettings] constructor');
 		this.$el = $el;
 		this.admin = admin;
-
+		this.boardInfo = boardInfo;
+		this.whiteboardSettingsHandler = new WhiteboardSettingsHandler();
 		if(this.admin){
 			var entryText = $('#settings-template').text();
 		}
@@ -20,6 +22,39 @@ module.exports = (function(){
 		 	var html = template(context);
 			$("#container").append($(html));
 			this.bindHandler();
+
+		this.$el.find(".participant-input").on('keyup', this.searchParticipant.bind(this));
+		bean.on(this.whiteboardSettingsHandler, 'participant-found', this.addToPartList.bind(this));
+		this.$el.find(".title-input").on('keyup', this.addTitle.bind(this));
+	}
+
+	WhiteboardSettings.prototype.addToPartList = function(results){ console.log('[WhiteboardSettings] addToPartList');
+	  		console.log(results);
+			var result = [];
+			for(i = 0; i < results.length; i++){
+				result.push(results[i].wb_username);
+			}
+
+			var entryTxt = $('#result-template').text();
+			var temp = Handlebars.compile(entryTxt);
+	 		var context = result;
+				Handlebars.registerHelper('result', function() {	
+				 var name = Handlebars.escapeExpression(result.wb_username)
+				  return new Handlebars.SafeString(
+				    "<li id=''>"+name+"<button class='btn addResult'>X</button></li>"
+				  );
+				});
+			var html = temp(context);
+			this.$el.find("#result-list").append($(html));
+
+	}
+
+	WhiteboardSettings.prototype.searchParticipant = function(event){ console.log('[WhiteboardSettings] addTitle');
+		this.whiteboardSettingsHandler.searchParticipant(event.target.value);
+	}
+
+	WhiteboardSettings.prototype.addTitle = function(event){ console.log('[WhiteboardSettings] addTitle');
+		this.whiteboardSettingsHandler.addTitle(this.boardInfo.id, event.target.value);
 	}
 
 	WhiteboardSettings.prototype.bindHandler = function(){ console.log('[WhiteboardSettings] bindHandler');
@@ -35,12 +70,12 @@ module.exports = (function(){
 	};
 
 	WhiteboardSettings.prototype.createParticipant = function(event){ console.log('[WhiteboardSettings] addClickedHandler');
-		this.participant = new Participant(this.$el);
+		this.participant = new Participant(this.$el, this.boardInfo.id);
 		bean.on(this.participant, "delete", this.deleteParticipant.bind(this));
 	};
 
 	WhiteboardSettings.prototype.createTag = function(event){ console.log('[WhiteboardSettings] createTag');
-		this.tag = new Tag(this.$el);
+		this.tag = new Tags(this.$el, this.boardInfo.id);
 		bean.on(this.tag, "delete", this.deleteTag.bind(this));
 	};
 
@@ -53,7 +88,6 @@ module.exports = (function(){
 		var el = document.querySelector('#participant-list');
 		el.removeChild(participant);
 	};
-
 
 	WhiteboardSettings.prototype.deleteTag = function(tag) { console.log('[WhiteboardSettings] deleteParticipant');
 		var el = document.querySelector('#tag-list');

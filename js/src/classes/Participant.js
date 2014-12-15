@@ -1,8 +1,10 @@
 module.exports = (function(){
-
-	function Participant($el){ console.log('[Participant] constructor');
+	var ParticipantHandler = require('./ParticipantHandler');
+	function Participant($el, boardId){ console.log('[Participant] constructor');
 		this.$el = $el;
 		var input = $el.find('.participant-input');
+		this.participantHandler = new ParticipantHandler();
+		this.participantHandler.addParticipant(boardId, input.val());
 		if(input.val()){
 			var entryText = $('#participant-template').text();
 			var template = Handlebars.compile(entryText);

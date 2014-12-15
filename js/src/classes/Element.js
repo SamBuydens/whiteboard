@@ -32,16 +32,14 @@ module.exports = (function(){
 		position.left = this.position.xPos;
 		position.zIndex = 0;
 		this.$el.find("#"+this.elementId).css(position);
-		if(this.admin){
-			this.createEditMenu();
-			this.bindHandler(this.$el.find("#"+this.elementId));
-		}
+		this.createEditMenu();
+		this.bindHandler(this.$el.find("#"+this.elementId));
 		this.createElement();
 	};
 
 	Element.prototype.createElement = function(){ console.log('[Element] createElement');
 		switch(this.elementType) {
-		case "post-it":
+			case "post-it":
 		    	this.element = new Postit(this.content);
 		    	if(this.content){
 		    		this.$el.find("#"+this.elementId).append(this.element.createPostit());
@@ -65,7 +63,6 @@ module.exports = (function(){
 		    	}
 		        break;
 			case "motion":
-
 		    	this.element = new Motion(this.$el,this.content, this.elementId);
 		    	if(this.content){
 		    		this.$el.find("#"+this.elementId).append(this.element.createMotion());

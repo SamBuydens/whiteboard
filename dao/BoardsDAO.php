@@ -15,7 +15,7 @@ class BoardsDAO
 
     public function selectAll(){
         $sql = "SELECT * 
-                FROM wb_whiteboard";
+                FROM wb_whiteboard ORDER BY `creation_date` DESC ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -65,5 +65,56 @@ class BoardsDAO
         return false;
     }
 
+
+    public function addTitle($whiteboard_id, $title){
+        $sql = 'UPDATE wb_whiteboard SET title=:title WHERE id=:whiteboard_id';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':whiteboard_id',$whiteboard_id);
+        $stmt->bindValue(':title',$title);
+        if($stmt->execute()){   
+            return $title;
+        }
+        return false;
+    }
+
+    public function searchParticipant($participant){
+        $sql = "SELECT * FROM wb_user WHERE wb_username LIKE :participant ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':participant',"{$participant}%");        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addTag($content, $whiteboard_id){
+        $sql = "INSERT INTO wb_tag(`content`, `whiteboard_id`) VALUES (:content, :whiteboard_id)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":content",$content);
+        $stmt->bindValue(":whiteboard_id",$whiteboard_id);
+        if($stmt -> execute()){
+            return $content;
+        }
+        return false;
+    }
+
+
+    public function searchBoard($param){
+        $sql = "SELECT * FROM wb_whiteboard WHERE title LIKE :param ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':param',"{$param}%");        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
+    public function searchMyBoard($param, $creator){
+        $sql = "SELECT * FROM wb_whiteboard WHERE title LIKE :param AND creator =:creator";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':param',"{$param}%");        
+         $stmt->bindValue(':creator',$creator);        
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

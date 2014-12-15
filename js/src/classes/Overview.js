@@ -15,9 +15,27 @@ module.exports = (function(){
 		$el.find(".allBoards").on('click', this.allBoards.bind(this));
 	}
 
+	this.$el.find("#search-input").on('keyup', this.searchWhiteboards.bind(this));
+	this.$el.find("#search-input2").on('keyup', this.searchMyWhiteboards.bind(this));
+
 	bean.on(this.overviewHandler, "data-success", this.addToBoardList.bind(this));
 	bean.on(this.overviewHandler, "view-whiteboard", this.viewWhiteboard.bind(this));
 	this.overviewHandler.getAllBoards();
+	}
+	Overview.prototype.searchMyWhiteboards = function(event) { console.log('[Overview] searchMyWhiteboards');
+		if(event.target.value){
+				this.overviewHandler.searchMyWhiteboards(event.target.value, this.user);
+			}else{
+				this.overviewHandler.getMyBoards();
+			}
+	}
+
+	Overview.prototype.searchWhiteboards = function(event) { console.log('[Overview] searchWhiteboard');
+		if(event.target.value){
+			this.overviewHandler.searchBoard(event.target.value);
+		}else{
+			this.overviewHandler.getAllBoards();
+		}
 	}
 
 	Overview.prototype.addToBoardList = function(event) { console.log('[Overview] addToBoardList');
@@ -41,7 +59,6 @@ module.exports = (function(){
 	};
 
 	Overview.prototype.addBoard = function(event) { console.log('[Overview] addBoard');
-	console.log(this.user);
 		if(this.user){
 			this.overviewHandler.addWhiteboard("Untitled", this.user);
 		}

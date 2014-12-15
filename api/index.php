@@ -201,6 +201,18 @@ $app->get("/boards/:userid/?", function($id) use ($boardsDAO){
 	exit();
 });
 
+$app->get("/search/:param/?", function($param) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->searchBoard($param));
+	exit();
+});
+
+$app->get("/mySearch/:param/:creator/?", function($param, $creator) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->searchMyBoard($param, $creator));
+	exit();
+});
+
 //USERS
 $app->post("/users/login/:email/:password/?", function($email, $password) use ($usersDAO){
 	header("Content-Type:application/json");
@@ -213,5 +225,25 @@ $app->post("/users/register/:username/:email/:password/?", function($username, $
 	echo json_encode($usersDAO->register($username, $email, $password));
 	exit();
 });
+
+//SETTINGS
+$app->post("/settings/:boardId/:title/?", function($boardId, $title) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->addTitle($boardId, $title));
+	exit();
+});
+
+$app->post("/participant/:participant/?", function($participant) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->searchParticipant($participant));
+	exit();
+});
+
+$app->post("/tag/:boardId/:tag/?", function($boardId, $tag) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->addTag($boardId, $tag));
+	exit();
+});
+
 
 $app->run();

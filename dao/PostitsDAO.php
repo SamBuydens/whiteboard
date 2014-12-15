@@ -23,7 +23,6 @@ class PostitsDAO
         return array();
     }
 
-
     public function deletePostitById($id){
         $sql = "DELETE
                 FROM wb_postit
@@ -35,7 +34,6 @@ class PostitsDAO
         }
         return false;
     }
-
 
     public function addNewPostit($whiteboard_id ,$id_on_board, $posx, $posy){
         $sql = "INSERT INTO wb_postit(whiteboard_id,id_on_board, posx, posy)
