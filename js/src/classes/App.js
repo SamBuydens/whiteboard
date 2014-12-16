@@ -5,7 +5,6 @@ module.exports = (function(){
 	var Element = require('./Element');
 	var DataHandler = require('./DataHandler');
 
-
 	function App($el, boardInfo, userId) { console.log('[App] constructor');
 		this.$el = $el;
 		this.whiteboardId = boardInfo.id;
@@ -29,11 +28,10 @@ module.exports = (function(){
 		this.buildBoard();
 	}
 
-
 	App.prototype.closeProject = function(event){ console.log('[WhiteboardSettings] closeProject');
-			$("#container").html("");
-			var Overview = require('./Overview');
-			new Overview($('#container'), this.userId);
+		$("#container").html("");
+		var Overview = require('./Overview');
+		new Overview($('#container'), this.userId);
 	};
 
 

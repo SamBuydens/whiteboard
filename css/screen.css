@@ -6,6 +6,7 @@ body {
 
 #container {
   font-size: 1.3em;
+  font-family: Verdana, sans-serif;
 }
 
 #whiteboard {
@@ -20,21 +21,33 @@ body {
 #element-picker {
   position: absolute;
   z-index: 10;
-  background-color: #22788D;
   color: #ffffff;
   font-family: Verdana, sans-serif;
   font-size: 0.9em;
+  margin: -40px 0 0 -115px;
 }
 
 #element-picker li {
   display: inline;
-  padding: 5px;
+  padding: 5px 5px 6px 5px;
   cursor: pointer;
+  background-color: #4E3C35;
+}
+
+#element-picker li:hover {
+  text-shadow: 0px 2px #4E3C35;
+  background-color: #22788D;
 }
 
 #element-picker span {
   margin: 0 5px 0 5px;
   cursor: pointer;
+}
+
+.element-holder {
+  background-color: #FFE6CF;
+  box-shadow: 0px 0px 5px #D1CDBE;
+  padding: 5px 5px 6px 5px;
 }
 
 .postit {
@@ -95,7 +108,7 @@ body {
 .btn {
   border: 0;
   cursor: pointer;
-  background: #eb9093;
+  background: #22788D;
   color: white;
   padding: 5px 10px;
   width: 100px;
@@ -132,5 +145,52 @@ body {
 }
 
 .selected {
-  background-color: green;
+  background-color: #4E3C35;
+}
+
+.edit-menu li {
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 0.8em;
+  display: inline;
+  padding: 5px 5px 6px 5px;
+  margin: 2px 2px 2px 2px;
+}
+
+.edit-menu #cancel {
+  background-color: #4E3C35;
+}
+
+.edit-menu #edit {
+  background-color: #22788D;
+}
+
+.edit-menu #remove {
+  background-color: #B30028;
+}
+
+.postit-edit {
+  min-width: 100px;
+  min-height: 20px;
+  margin: 0 auto 0 auto;
+}
+
+.postit {
+  margin: 0 auto 0 auto;
+}
+
+.hide-button {
+  background-color: #4E3C35;
+}
+
+.close-button {
+  background-color: #B30028;
+}
+
+.addTag, .addParticipant {
+  background-color: #22788D;
+}
+
+.settings {
+  box-shadow: 0px 0px 5px #D1CDBE;
 }

@@ -51,6 +51,12 @@ module.exports = (function(){
 		});
 	};
 
+	Motion.prototype.removeEdit = function($el,elementId){ console.log('[Motion] removeEdit');
+		this.$el = $el;
+		this.elementId = elementId;
+		this.$el.find('#'+elementId+' .motion-edit').remove();
+	};
+
 	Motion.prototype.confirm = function(video){ console.log('[Motion] confirm');
 		if(this.changed === true){ console.log(this.changed);
 			this.vidSrc = this.$el.find("#"+this.elementId+" .motion-edit").val();
