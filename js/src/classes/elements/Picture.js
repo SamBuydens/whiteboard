@@ -52,6 +52,12 @@ module.exports = (function(){
 			reader.readAsDataURL(file);
 	};
 
+	Picture.prototype.removeEdit = function($el,elementId){ console.log('[Picture] removeEdit');
+		this.$el = $el;
+		this.elementId = elementId;
+		this.$el.find('#'+elementId+' .input-picture').remove();
+	};
+
 	Picture.prototype.confirm = function(file){ console.log('[Picture] confirm');
 		this.imgSrc = this.$el.find("#"+this.elementId+" .input-picture").val();
 		if(this.changed === true){

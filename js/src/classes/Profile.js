@@ -12,8 +12,6 @@ module.exports = (function(){
 		var entryText = $('#login-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {};
-		//context.username = this.username;
-		//context.email = this.email;
 		var html = template(context);
 		$('#profile').append($(html));
 
@@ -21,8 +19,6 @@ module.exports = (function(){
 		var entryText = $('#register-template').text();
 		var template = Handlebars.compile(entryText);
 		var context = {};
-		//context.username = this.username;
-		//context.email = this.email;
 		var html = template(context);
 		$('#profile').append($(html));
 
@@ -43,7 +39,6 @@ module.exports = (function(){
 		this.password_2 = this.$el.find('.register_password_2').val();
 
 		if(this.password==this.password_2){
-			//existing user nog checken!
 			this.userHandler.register(this.username, this.email, this.password);
 		}
 	};

@@ -5,8 +5,12 @@ module.exports = (function(){
 	var Element = require('./Element');
 	var DataHandler = require('./DataHandler');
 
-
 	function App($el, boardInfo, userId) { console.log('[App] constructor');
+		this.dataHandler = new DataHandler();
+		this.partRights = []
+		if(userId < 0){ userId = "0"}
+		this.dataHandler.checkParticipant(boardInfo.loc_id, userId);
+		bean.on(this.dataHandler, "participant-check", this.partRightsCheck.bind(this));
 		this.$el = $el;
 		this.whiteboardId = boardInfo.id;
 		this.userId = userId;
@@ -15,10 +19,16 @@ module.exports = (function(){
 		this.types = ['postits', 'statics', 'motion'];
 		this.i = 0;
 		this.elementList = [];
-
 		this.position = {};
-		this.dataHandler = new DataHandler();
-		this.whiteboard = new Whiteboard(this.$el, this.boardInfo, this.admin, userId);
+	}
+
+	App.prototype.partRightsCheck = function(partRights){ console.log('[WhiteboardSettings] partRightsCheck');
+		this.partRights = partRights
+		if(partRights.length > 0){
+			this.admin = true;
+		}
+
+		this.whiteboard = new Whiteboard(this.$el, this.boardInfo, this.admin, this.userId);
 		this.elementPicker = new ElementPicker(this.$el);
 		//LUISTEREN
 		bean.on(this.dataHandler, "data-success", this.addToElementList.bind(this));
@@ -27,13 +37,13 @@ module.exports = (function(){
 		this.$el.find('.close-button').on('click', this.closeProject.bind(this));
 		//UITVOEREN
 		this.buildBoard();
-	}
+	};
 
 
 	App.prototype.closeProject = function(event){ console.log('[WhiteboardSettings] closeProject');
-			$("#container").html("");
-			var Overview = require('./Overview');
-			new Overview($('#container'), this.userId);
+		$("#container").html("");
+		var Overview = require('./Overview');
+		new Overview($('#container'), this.userId);
 	};
 
 

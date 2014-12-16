@@ -4,7 +4,6 @@ module.exports = (function(){
 		this.$el = $el;
 		this.boardId = boardId;
 		this.admin	= admin
-		
 		this.whiteboardSettingsHandler = new WhiteboardSettingsHandler();
 		this.whiteboardSettingsHandler.getParticipantById(participant.user_id);
 		bean.on(this.whiteboardSettingsHandler, 'participant', this.createParticipant.bind(this));

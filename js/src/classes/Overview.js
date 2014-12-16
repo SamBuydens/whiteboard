@@ -22,12 +22,13 @@ module.exports = (function(){
 	bean.on(this.overviewHandler, "view-whiteboard", this.viewWhiteboard.bind(this));
 	this.overviewHandler.getAllBoards();
 	}
+
 	Overview.prototype.searchMyWhiteboards = function(event) { console.log('[Overview] searchMyWhiteboards');
 		if(event.target.value){
-				this.overviewHandler.searchMyWhiteboards(event.target.value, this.user);
-			}else{
-				this.overviewHandler.getMyBoards();
-			}
+			this.overviewHandler.searchMyWhiteboards(event.target.value, this.user);
+		}else{
+			this.overviewHandler.getMyBoards();
+		}
 	}
 
 	Overview.prototype.searchWhiteboards = function(event) { console.log('[Overview] searchWhiteboard');
@@ -67,7 +68,6 @@ module.exports = (function(){
 	Overview.prototype.removeWhiteboard = function(event) { console.log('[Overview] removeWhiteboard');
 		this.overviewHandler.removeBoard(event);
 		this.$el.find('#'+event).remove();
-		//ook alle postits verwijderen...
 	};
 	Overview.prototype.myBoards = function(event){ console.log('[Overview] myBoards');
 		this.overviewHandler.getMyBoards(this.user);

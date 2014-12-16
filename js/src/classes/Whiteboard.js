@@ -5,18 +5,21 @@ module.exports = (function(){
 	function Whiteboard($el, boardInfo, admin) { console.log('[Whiteboard] constructor');
 		this.$el = $el;
 		this.admin = admin;
+		this.boardId = boardInfo.loc_id 
 		this.boardInfo = boardInfo;
 		this.createWhiteboard();
 		this.addWhiteboardSettings();
 	}
 
 	Whiteboard.prototype.createWhiteboard = function(){ console.log('[Whiteboard] createWhiteboard');
-		this.board = this.$el.append("<div id='whiteboard'></div>");
+		this.board = this.$el.append("<div id='whiteboard' class='"+this.boardId+"'></div>");
 		this.bindHandler();
 	};
 
 	Whiteboard.prototype.bindHandler = function(){ console.log('[Whiteboard] bindHandler');
-		this.board.on('click', this.clickHandler.bind(this));
+		if(this.admin){
+			$("."+this.boardId).on('click', this.clickHandler.bind(this));
+		}
 	};
 
 	Whiteboard.prototype.clickHandler = function(event){ console.log('[Whiteboard] clickHandler');

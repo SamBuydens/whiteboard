@@ -14,15 +14,17 @@ class BoardsDAO
     }
 
     public function selectAll(){
-        $sql = "SELECT * 
-                FROM wb_whiteboard ORDER BY `creation_date` DESC ";
+        $sql = "SELECT * , wb_whiteboard.id AS loc_id
+                FROM wb_whiteboard LEFT JOIN (wb_user)
+                 ON wb_whiteboard.creator=wb_user.id ORDER BY `creation_date` DESC ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function getMyBoards($creator){
-        $sql = "SELECT * FROM `wb_whiteboard` WHERE creator =:creator";
+        $sql = "SELECT * , wb_whiteboard.id AS loc_id FROM `wb_whiteboard` LEFT JOIN (wb_user)
+                 ON wb_whiteboard.creator=wb_user.id WHERE creator =:creator";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':creator', $creator);
         $stmt->execute();
@@ -140,7 +142,6 @@ class BoardsDAO
         return false;
     }
 
-
     public function searchBoard($param){
         $sql = "SELECT * FROM wb_whiteboard WHERE title LIKE :param ";
         $stmt = $this->pdo->prepare($sql);
@@ -156,6 +157,15 @@ class BoardsDAO
         $stmt->bindValue(':param',"{$param}%");        
          $stmt->bindValue(':creator',$creator);        
 
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function checkParticipant($boardId, $user_id){
+        $sql = "SELECT * FROM wb_invitation WHERE whiteboard_id=:boardId AND user_id =:user_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':user_id',$user_id);        
+         $stmt->bindValue(':boardId',$boardId);        
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

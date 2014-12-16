@@ -49,7 +49,6 @@ module.exports = (function(){
 		});
 	}
 
-
 	OverviewHandler.prototype.searchBoard = function(param){
 		return $.ajax({
 	  		type: "GET",
@@ -61,7 +60,6 @@ module.exports = (function(){
 	  		}.bind(this)
 		});
 	}
-
 
 	OverviewHandler.prototype.searchMyBoard = function(param, creator){
 		return $.ajax({

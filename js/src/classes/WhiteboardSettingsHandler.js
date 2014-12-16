@@ -13,7 +13,6 @@ module.exports = (function(){
 		});
 	};
 
-
 	WhiteboardSettingsHandler.prototype.getParticipants = function(boardId){ console.log('[WhiteboardSettingsHandler] getParticipants');
 		return $.ajax({
 		  	type: "GET",

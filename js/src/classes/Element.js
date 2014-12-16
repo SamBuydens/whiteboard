@@ -136,6 +136,7 @@ module.exports = (function(){
 		        break;
 		    case "edit":
 		    	this.element.confirm();
+		    	//this.element.removeEdit(this.$el,this.elementId);
 		    	this.editMenu.toggleVisible();
 		    	if(this.element.changed === true){
 		    		actionEvent = {};

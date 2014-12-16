@@ -151,6 +151,18 @@ module.exports = (function(){
 		});
 	};
 
+	DataHandler.prototype.checkParticipant = function(boardId, userId){ console.log('[DataHandler] checkParticipant');
+	console.log(userId);
+		 $.ajax({
+		  	type: "GET",
+		  	url: this.url+'checkParticipant/'+boardId+'/'+userId,
+		  	data: {content: 'content'},
+		  	success: function(data){
+		  		bean.fire(this, "participant-check", [data]);
+		  	}.bind(this)
+		});
+	};
+
 	return DataHandler;
 
 })();

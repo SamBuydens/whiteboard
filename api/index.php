@@ -282,5 +282,11 @@ $app->post("/tag/:boardId/:tag/?", function($boardId, $tag) use ($boardsDAO){
 	exit();
 });
 
+$app->get("/checkParticipant/:boardId/:userId/?", function($boardId, $userId) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->checkParticipant($boardId, $userId));
+	exit();
+});
+
 
 $app->run();

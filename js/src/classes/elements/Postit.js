@@ -26,6 +26,12 @@ module.exports = (function(){
 		this.$el.find("#"+elementId).append(new PostitEdit(this.txt));
 	};
 
+	Postit.prototype.removeEdit = function($el,elementId){ console.log('[Postit] removeEdit');
+		this.$el = $el;
+		this.elementId = elementId;
+		this.$el.find("#"+elementId+" .postit-edit").remove();
+	};
+
 	Postit.prototype.confirm = function(){ console.log('[Postit] confirm');
 		this.txt = this.$el.find("#"+this.elementId+" .postit-edit").val();
 		this.endEdit();
