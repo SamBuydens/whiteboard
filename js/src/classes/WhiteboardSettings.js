@@ -3,11 +3,12 @@ module.exports = (function(){
 	var Tags = require('./Tags');
 	var WhiteboardSettingsHandler = require('./WhiteboardSettingsHandler');
 
-	function WhiteboardSettings($el, admin, boardInfo) { console.log('[WhiteboardSettings] constructor');
+	function WhiteboardSettings($el, admin, boardInfo,userId) { console.log('[WhiteboardSettings] constructor');
 		this.$el = $el;
 		this.admin = admin;
 		this.boardInfo = boardInfo;
 		this.whiteboardSettingsHandler = new WhiteboardSettingsHandler();
+
 		if(this.admin){
 			var entryText = $('#settings-template').text();
 		}
@@ -26,6 +27,8 @@ module.exports = (function(){
 		this.$el.find(".participant-input").on('keyup', this.searchParticipant.bind(this));
 		bean.on(this.whiteboardSettingsHandler, 'participant-found', this.addToPartList.bind(this));
 		this.$el.find(".title-input").on('keyup', this.addTitle.bind(this));
+		this.whiteboardSettingsHandler.getParticipants(boardInfo.id);
+		bean.on(this.whiteboardSettingsHandler, 'participants', this.createParticipant.bind(this));
 	}
 
 	WhiteboardSettings.prototype.addToPartList = function(results){ console.log('[WhiteboardSettings] addToPartList');
@@ -34,21 +37,65 @@ module.exports = (function(){
 			var context = {};
 			context.names = [];
 			for(i = 0; i < results.length; i++){
-				context.names.push({name:results[i].wb_username});
+				context.names.push({name:results[i].wb_username,id:results[i].id,});
 			}
 			var entryTxt = $('#result-template').text();
 			var template = Handlebars.compile(entryTxt);
 			console.log('----------------------');
 			Handlebars.registerHelper('users', function() {	
-				 var name = Handlebars.escapeExpression(this.name)
+				 var name = Handlebars.escapeExpression(this.name),
+					 id = Handlebars.escapeExpression(this.id);		
+			
 				  return new Handlebars.SafeString(
-				    "<li id=''>"+name+"<button class='btn addResult'>X</button></li>"
+				    "<li class='partList'>"+name+"<button id="+id+" class='btn addParticipant'>X</button></li>"
 				  );
 				});
 			var html = template(context);
 			this.$el.find("#result-list").append($(html));
-
+			this.bindParticipant($(html))
 	}
+
+
+	WhiteboardSettings.prototype.bindParticipant = function($el){
+		this.addPartBtn = document.querySelectorAll('.addParticipant');
+		console.log(this.addPartBtn );
+		for(i = 0; i < this.addPartBtn.length; i++ ){
+			this.addPartBtn[i].addEventListener('click', this.addInvitation.bind(this));
+		}
+	};
+
+	WhiteboardSettings.prototype.addInvitation = function(event){ console.log("[Participant] deleteClickHandler");
+		var participant = {user_id: event.target.id};
+		var part = {0:{user_id: event.target.id}};
+		this.whiteboardSettingsHandler.addParticipant(this.boardInfo.id, participant.user_id);
+		this.createParticipant(part);
+		this.$el.find("#participant-list").append("<li>"+event.path[1].firstChild.data+"<button id='"+event.path[0].id+"'' class='btn deletePart'>X</button></li>");
+		this.bindDeletebutton();
+	}
+
+	WhiteboardSettings.prototype.bindDeletebutton = function(){ console.log('[Participant] bindDeletebutton');
+		this.deletebuton = document.querySelectorAll('.deletePart');
+		console.log(this.deletebuton);
+				console.log(this.deletebuton.length-1);
+
+		this.deletebuton[this.deletebuton.length-1].addEventListener('click', this.deleteClickHandler.bind(this));
+	};
+
+	WhiteboardSettings.prototype.deleteClickHandler = function(event){ console.log("[Participant] deleteClickHandler");
+		this.whiteboardSettingsHandler.deletePartById(this.boardId, event.target.id);
+		console.log(event.target.id);
+		event.path[1].remove();
+	};
+
+	WhiteboardSettings.prototype.createParticipant = function(participant){ console.log('[WhiteboardSettings] addClickedHandler');
+		
+		this.$el.find(".participant-input").val("");
+		$(".partList").remove();
+		for(i = 0; i < participant.length; i++){
+			this.participant = new Participant(this.$el, this.boardInfo.id, participant[i], this.admin);
+			bean.on(this.participant, "delete", this.deleteParticipant.bind(this));
+		}
+	};
 
 	WhiteboardSettings.prototype.searchParticipant = function(event){ console.log('[WhiteboardSettings] addTitle');
 		this.whiteboardSettingsHandler.searchParticipant(event.target.value);
@@ -61,18 +108,12 @@ module.exports = (function(){
 	WhiteboardSettings.prototype.bindHandler = function(){ console.log('[WhiteboardSettings] bindHandler');
 		this.$el.find('.hide-button').on('click', this.hideSettingsHandler.bind(this));
 		this.$el.find('.show-button').on('click', this.hideSettingsHandler.bind(this));
-		this.$el.find('.addParticipant').on('click', this.createParticipant.bind(this));
 		this.$el.find('.addTag').on('click', this.createTag.bind(this));
 	};
 
 	WhiteboardSettings.prototype.toggleVisible = function(){ console.log('[WhiteboardSettings] toggleVisible');
 		this.$el.find('#hide').toggleClass('hidden');
 		this.$el.find('#show').toggleClass('hidden');
-	};
-
-	WhiteboardSettings.prototype.createParticipant = function(event){ console.log('[WhiteboardSettings] addClickedHandler');
-		this.participant = new Participant(this.$el, this.boardInfo.id);
-		bean.on(this.participant, "delete", this.deleteParticipant.bind(this));
 	};
 
 	WhiteboardSettings.prototype.createTag = function(event){ console.log('[WhiteboardSettings] createTag');

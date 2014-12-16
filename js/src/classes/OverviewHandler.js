@@ -1,6 +1,6 @@
 module.exports = (function(){
 	function OverviewHandler() { console.log('[OverviewHandler] constructor');
-		this.url = "http://localhost:8888/cp3/whiteboard/whiteboard/api/index.php/";
+		this.url = "http://localhost/whiteboard_2/api/index.php/";
 	}
 	
 	OverviewHandler.prototype.getAllBoards = function(){ console.log('[OverviewHandler] getAllBoards');

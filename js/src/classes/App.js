@@ -18,7 +18,7 @@ module.exports = (function(){
 
 		this.position = {};
 		this.dataHandler = new DataHandler();
-		this.whiteboard = new Whiteboard(this.$el, this.boardInfo, this.admin);
+		this.whiteboard = new Whiteboard(this.$el, this.boardInfo, this.admin, userId);
 		this.elementPicker = new ElementPicker(this.$el);
 		//LUISTEREN
 		bean.on(this.dataHandler, "data-success", this.addToElementList.bind(this));
@@ -67,7 +67,6 @@ module.exports = (function(){
 	App.prototype.addToBoard = function(event){ console.log('[App] addToBoard'); 
 		var list = event;
 		for(var elementItem in list) {
-			console.log(list[elementItem]);
   			var type = list[elementItem].el_type;
   			var position = {};
   			position.yPos = Number(list[elementItem].posy);

@@ -245,9 +245,34 @@ $app->post("/settings/:boardId/:title/?", function($boardId, $title) use ($board
 	exit();
 });
 
+$app->get("/getParticipants/:boardId/?", function($boardId) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->getParticipants($boardId));
+	exit();
+});
+
+$app->get("/getParticipantById/:id/?", function($id) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->getParticipantById($id));
+	exit();
+});
+
+$app->get("/deletePartById/:boardId/:id/?", function($boardId, $id) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->deletePartById($boardId, $id));
+	exit();
+});
+
+
 $app->post("/participant/:participant/?", function($participant) use ($boardsDAO){
 	header("Content-Type:application/json");
 	echo json_encode($boardsDAO->searchParticipant($participant));
+	exit();
+});
+
+$app->post("/addParticipant/:boardId/:participant/?", function($boardId, $participant) use ($boardsDAO){
+	header("Content-Type:application/json");
+	echo json_encode($boardsDAO->addParticipant($boardId, $participant));
 	exit();
 });
 

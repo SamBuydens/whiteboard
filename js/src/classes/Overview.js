@@ -15,8 +15,8 @@ module.exports = (function(){
 		$el.find(".allBoards").on('click', this.allBoards.bind(this));
 	}
 
-	this.$el.find("#search-input").on('keyup', this.searchWhiteboards.bind(this));
-	this.$el.find("#search-input2").on('keyup', this.searchMyWhiteboards.bind(this));
+	this.$el.find("#search").on('keyup', this.searchWhiteboards.bind(this));
+	this.$el.find("#mySearch").on('keyup', this.searchMyWhiteboards.bind(this));
 
 	bean.on(this.overviewHandler, "data-success", this.addToBoardList.bind(this));
 	bean.on(this.overviewHandler, "view-whiteboard", this.viewWhiteboard.bind(this));
@@ -69,28 +69,41 @@ module.exports = (function(){
 		this.$el.find('#'+event).remove();
 		//ook alle postits verwijderen...
 	};
-
 	Overview.prototype.myBoards = function(event){ console.log('[Overview] myBoards');
 		this.overviewHandler.getMyBoards(this.user);
 		console.log(this.user);
 		this.toggleVisible(event);
 		this.$el.find('.allBoards').removeClass('selected');
+		this.$el.find('#mySearch').removeClass('hidden');
+		this.$el.find('#search').addClass('hidden');
 	}
 
 	Overview.prototype.allBoards = function(event){ console.log('[Overview] allBoards');
 		this.overviewHandler.getAllBoards();
 		this.toggleVisible(event);
 		this.$el.find('.myBoards').removeClass('selected');
-	}
-
-	Overview.prototype.sendUser = function(user){ console.log('[Overview] sendUser');
-		this.user = user.id;
-		this.overviewHandler.getAllBoards();
-
+		this.$el.find('#search').removeClass('hidden');
+		this.$el.find('#mySearch').addClass('hidden');
 	}
 
 	Overview.prototype.toggleVisible = function(event){
 		this.$el.find('.'+event.target.classList[0]).addClass('selected');
+	}
+
+	Overview.prototype.searchMyWhiteboards = function(event) { console.log('[Overview] searchMyWhiteboards');
+		if(event.target.value){
+				this.overviewHandler.searchMyBoard(event.target.value, this.user);
+			}else{
+				this.overviewHandler.getMyBoards(this.user);
+			}
+	}
+
+	Overview.prototype.searchWhiteboards = function(event) { console.log('[Overview] searchWhiteboard');
+		if(event.target.value){
+			this.overviewHandler.searchBoard(event.target.value);
+		}else{
+			this.overviewHandler.getAllBoards();
+		}
 	}
 
 	return Overview;

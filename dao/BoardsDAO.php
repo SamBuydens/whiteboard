@@ -75,6 +75,52 @@ class BoardsDAO
         return false;
     }
 
+    public function addParticipant($whiteboard_id, $participant){
+        $sql = "INSERT INTO wb_invitation(`user_id`, `whiteboard_id`) VALUES (:participant, :whiteboard_id)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':whiteboard_id',$whiteboard_id);
+        $stmt->bindValue(':participant',$participant);
+        if($stmt->execute()){   
+             return $this -> getParticipantById($participant);
+        }
+        return false;
+    }
+
+
+    public function getParticipants($boardId){
+        $sql = "SELECT user_id FROM wb_invitation WHERE `whiteboard_id` =:boardId ORDER BY `creation_date` DESC ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':boardId', $boardId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getParticipantById($id){
+        $sql = "SELECT * FROM `wb_user` WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        if ($stmt->execute()){
+            $participant = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!empty($participant)) {
+                return $participant;
+            }
+        }
+        return array();
+    }
+
+
+    public function deletePartById($boardId, $id){
+        $sql = "DELETE FROM `wb_invitation` WHERE `user_id`=:id AND `whiteboard_id` =:boardId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':boardId', $boardId);
+       if($stmt->execute()){
+            return $id;
+        }
+        return false;
+    }
+
+
     public function searchParticipant($participant){
         $sql = "SELECT * FROM wb_user WHERE wb_username LIKE :participant ";
         $stmt = $this->pdo->prepare($sql);
@@ -102,7 +148,6 @@ class BoardsDAO
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
 
     public function searchMyBoard($param, $creator){
